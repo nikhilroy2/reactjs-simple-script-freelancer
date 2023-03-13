@@ -13,22 +13,22 @@ function Header(props) {
                         <div className="collapse navbar-collapse" id="mynavbar">
                             <ul className="navbar-nav me-auto">
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/">Add timer</Link>
+                                    <Link className="nav-link text-white" to="/add_timer">Add timer</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/">Manage timers</Link>
+                                    <Link className="nav-link text-white" to="/manage_timers">Manage timers</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/">Add meditation</Link>
+                                    <Link className="nav-link text-white" to="/add_meditation">Add meditation</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/">Manage meditations</Link>
+                                    <Link className="nav-link text-white" to="/manage_meditations">Manage meditations</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/">Add affirmations</Link>
+                                    <Link className="nav-link text-white" to="/add_affirmations">Add affirmations</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/">Manage affirmations</Link>
+                                    <Link className="nav-link text-white" to="/manage_affirmations">Manage affirmations</Link>
                                 </li>
                             </ul>
                             <form className="d-flex">
