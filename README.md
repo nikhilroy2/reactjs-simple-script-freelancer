@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+I need a simple react.js script with the following requirements. I already have most of the script done, I just need it completed. Refer to the attached file react.js-script.txt for the script.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The main nav bar should have the following links:
 
-## Available Scripts
+Add timer
 
-In the project directory, you can run:
+manage timers
 
-### `npm start`
+Add meditation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+manage meditations
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Add affirmations
 
-### `npm test`
+manage affirmations
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+timers ------------------------------------------
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+When click on 'add timer' link it will go to a form page with the following fields:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+name - text box
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+image - uploader
 
-### `npm run eject`
+inhale - text box
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+hold 1 - text box
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+exhale - text box
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+hold 2 -text box
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+number of cycles - text box
 
-## Learn More
+Create a 'manage timers' link. When click on 'manage timers' link it will go to a page that displays all added timers with an 'edit' and 'delete' buttons.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+If I click on edit, it will go to the page to edit the timer's fields.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+meditations ------------------------------------------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+When click on 'add meditation' link it will go to a form page where user enters the following fields:
 
-### Analyzing the Bundle Size
+name - text box
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+image - uploader
 
-### Making a Progressive Web App
+details - text box
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+audio file - uploader
 
-### Advanced Configuration
+Create a 'manage meditations' link. When click on the link it will go to a page that displays all added meditations with a 'preview', 'edit', and 'delete' buttons. It should also display the length of the audio file.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+If I click on preview, it will just play the audio.
 
-### Deployment
+If I click on edit, it will go to that meditation's page to edit that meditation's fields.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+affirmations ---------------------------------------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+When click on 'add affirmation' link it will go to a form page where user enters the following fields:
+
+name - text box
+
+image - uploader
+
+details - text box
+
+audio file - uploader
+
+When click on the 'manage affirmations' link it will go to a page that displays all created affirmations with a 'preview', 'edit', and 'delete' buttons. It should also display the length of the audio file.
+
+If I click on preview, it will just play the audio.
+
+If I click on edit, it will go to that affirmation's page to edit that affirmation's fields.
