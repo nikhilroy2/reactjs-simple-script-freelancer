@@ -22,7 +22,7 @@ function Header(props) {
                                     <Link className="nav-link text-white" to="/add_meditation">Add meditation</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/manage_meditations">Manage meditations</Link>
+                                    <Link className="nav-link text-white" to="/manage_meditation">Manage meditation</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link text-white" to="/add_affirmations">Add affirmations</Link>

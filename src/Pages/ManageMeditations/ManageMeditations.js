@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addMeditationList, updateAddMeditation, deleteMeditationUpdate } from '../../Redux/State/AddMeditationSlice/AddMeditationSlice';
 function ManageMeditations(props) {
     const navigate = useNavigate();
-
+    let audioRef = useRef()
     const dispatch = useDispatch();
     let stateList = useSelector(state => state.addMeditation.value);
     //console.log(addTimerInfo)
     const editHandle = (index) => {
         let isConfirm = window.confirm('Are you sure to update it?')
         if (isConfirm) {
-            navigate(`/add_timer?update=${index}`)
+            navigate(`/add_meditation?update=${index}`)
         }
     }
 
@@ -22,8 +22,40 @@ function ManageMeditations(props) {
 
         if (isConfirm) {
             dispatch(deleteMeditationUpdate(index));
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            }
         }
     }
+
+    const playAudioHandle = (src, _self) => {
+        let audio = new Audio();
+        audio.src = src;
+        audio.play();
+        console.log(_self)
+        audio.onplay = e => {
+            _self.innerHTML = 'Playing';
+            _self.classList.add('disabled')
+        }
+
+        audio.onended = e => {
+            _self.innerHTML = 'Play';
+            _self.removeClass('disabled')
+        };
+        audioRef.current = audio;
+    }
+
+    useEffect(() => {
+        return () => {
+            // stop audio playback when unmounting component
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            }
+        };
+    }, []);
+
     return (
         <div id='manageTimers'>
             <div className="container">
@@ -59,9 +91,18 @@ function ManageMeditations(props) {
                                                     <img src={v.image_field} alt="img" height="50px" />
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    <audio src={v.audio_field}></audio>
+                                                    {v.audio_field !== '' && (
+                                                        <button className='btn btn-success btn-sm' onClick={(event) => playAudioHandle(v.audio_field, event.target)}>
+                                                            Play
+                                                        </button>
+                                                    )}
                                                 </td>
-                                                <td className='py-3 border-bottom border-secondary'>Duration: 3434</td>
+                                                <td className='py-3 border-bottom border-secondary'>
+
+                                                    {v.audio_field !== '' && (
+                                                        <span>Duration: {v.audio_duration}</span>
+                                                    )}
+                                                </td>
 
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     <button className='btn btn-sm btn-warning me-2' onClick={() => editHandle(i)}> Edit </button>

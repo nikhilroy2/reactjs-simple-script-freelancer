@@ -52,7 +52,7 @@ const Homepage = () => {
               </Link>
             </div>
             <div className="col">
-              <Link to="/manage_meditations" className="p-5 d-block text-center border bg-dark text-white rounded border-secondary">
+              <Link to="/manage_meditation" className="p-5 d-block text-center border bg-dark text-white rounded border-secondary">
                 Manage Meditations
               </Link>
             </div>

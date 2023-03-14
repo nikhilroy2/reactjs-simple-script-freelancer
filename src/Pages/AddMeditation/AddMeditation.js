@@ -30,16 +30,15 @@ function AddMeditation(props) {
 
         reader.onloadend = () => {
             img_local_src = reader.result;
-            dataResult(img_local_src)
-        }
+            getAudioSrc(img_local_src);
+        };
         if (file) {
             reader.readAsDataURL(file);
         }
 
         if (image_field.current.value === '') {
-            dataResult()
+            getAudioSrc();
         }
-
 
         function generateUUID() {
             const cryptoObj = window.crypto || window.msCrypto; // for IE 11
@@ -61,33 +60,69 @@ function AddMeditation(props) {
             );
         }
 
-        function dataResult(image_src = '') {
+        function formatTime(duration) {
+            let hours = Math.floor(duration / 3600);
+            let minutes = Math.floor((duration % 3600) / 60);
+            let seconds = Math.floor(duration % 60);
+
+            if (hours > 0) {
+                return hours + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+            } else {
+                return ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+            }
+        }
+
+
+        function getAudioSrc(img_src = '') {
+            let audioFile = audio_field.current.files[0];
+            //console.log('audioFile', audioFile)
             let newFormValue = {
                 id: generateUUID(),
                 name_field: name_field.current.value,
-                image_field: image_src !== '' ? image_src : '',
-                audio_field: audio_field.current.value
-            }
+                image_field: img_src,
+                audio_field: '',
+                audio_duration: '',
+            };
+            if (audioFile) {
+                let reader = new FileReader();
+                reader.onloadend = () => {
+                    let audio = new Audio(reader.result);
+                    audio.addEventListener('loadedmetadata', () => {
 
-            if (updateIndex) {
-                // for update data
-                //console.log('updateIndex', updateIndex)
-                dispatch(updateAddMeditation({ updateIndex, newFormValue }));
+                        newFormValue.audio_field = reader.result;
 
-                alert('Information updated successfully!')
-                navigate('/manage_meditation') // redirect to manage timer page
+                        let formattedDuration = formatTime(audio.duration);
+                        console.log(formattedDuration)
+                        newFormValue.audio_duration = formattedDuration;
+                        //console.log(reader.result)
+                        if (updateIndex) {
+                            dispatch(updateAddMeditation(newFormValue));
+                            alert('Information update successfully!');
+                            navigate('/manage_meditation'); // redirect to manage timer page
+                        } else {
+                            dispatch(addMeditationList(newFormValue));
+                            alert('Information added successfully!');
+                            navigate('/manage_meditation'); // redirect to manage timer page
+                        }
+
+                    })
+
+                };
+                reader.readAsDataURL(audioFile);
             } else {
-
-                // for add data
-                dispatch(addMeditationList(newFormValue));
-
-                alert('Information added successfully!')
-                navigate('/manage_meditation') // redirect to manage timer page
-
+                if (updateIndex) {
+                    dispatch(updateAddMeditation(newFormValue));
+                    alert('Information update successfully!');
+                    navigate('/manage_meditation'); // redirect to manage timer page
+                } else {
+                    dispatch(addMeditationList(newFormValue));
+                    alert('Information added successfully!');
+                    navigate('/manage_meditation'); // redirect to manage timer page
+                }
             }
-
         }
-    }
+    };
+
     return (
         <div id='addTimer'>
             <div className="container">
@@ -120,7 +155,7 @@ function AddMeditation(props) {
                     </div>
 
                     <div className="form-group mb-3 text-center">
-                        <Link to="/manage_meditations" className="btn btn-secondary px-5">Manage Meditation</Link>
+                        <Link to="/manage_meditation" className="btn btn-secondary px-5">Manage Meditation</Link>
                     </div>
                 </form>
 
