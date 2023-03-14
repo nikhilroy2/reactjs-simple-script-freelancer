@@ -74,7 +74,7 @@ function ManageTimers(props) {
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     {v.hold_2_field}
                                                 </td>
-                                                <td className='py-3 border-bottom border-secondary'>j
+                                                <td className='py-3 border-bottom border-secondary'>
                                                     {v.number_of_cycles_field}
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
