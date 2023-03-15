@@ -60,6 +60,7 @@ function ManageMeditations(props) {
             }
         };
     }, []);
+    console.log(stateList)
 
     return (
         <div id='manageTimers'>

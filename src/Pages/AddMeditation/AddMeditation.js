@@ -96,6 +96,7 @@ function AddMeditation(props) {
                         newFormValue.audio_duration = formattedDuration;
                         //console.log(reader.result)
                         if (updateIndex) {
+                            console.log('updated', newFormValue)
                             dispatch(updateAddMeditation(newFormValue));
                             alert('Information update successfully!');
                             navigate('/manage_meditation'); // redirect to manage timer page
@@ -111,6 +112,8 @@ function AddMeditation(props) {
                 reader.readAsDataURL(audioFile);
             } else {
                 if (updateIndex) {
+                    console.log('updated', newFormValue)
+
                     dispatch(updateAddMeditation(newFormValue));
                     alert('Information update successfully!');
                     navigate('/manage_meditation'); // redirect to manage timer page
@@ -134,7 +137,7 @@ function AddMeditation(props) {
                 <form onSubmit={event => submitFormHandle(event)} className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="name_field">Name</label>
-                        <input defaultValue={updateIndex ? stateList[updateIndex].name_field : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
+                        <input defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].name_field : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
                     </div>
 
                     <div className="form-group mb-3">
@@ -147,7 +150,7 @@ function AddMeditation(props) {
                     <div className="form-group mb-4">
                         <label className='mb-2' htmlFor="audio_field">Audio upload</label>
                         <input type="file" accept='.mp3,.amr,.wav' ref={audio_field} 
-                        defaultValue={updateIndex ? stateList[updateIndex].number_of_cycles_field : ''} 
+                        defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].number_of_cycles_field : ''} 
                         className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
                     </div>
 
@@ -161,8 +164,6 @@ function AddMeditation(props) {
                         <Link to="/manage_meditation" className="btn btn-secondary px-5">Manage Meditation</Link>
                     </div>
                 </form>
-
-
             </div>
         </div>
     );

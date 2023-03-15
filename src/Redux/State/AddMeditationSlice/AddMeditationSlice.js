@@ -12,14 +12,14 @@ export const addMeditationSlice = createSlice({
         },
         updateAddMeditation: (state, action) => {
             const { updateIndex, newFormValue } = action.payload;
-            const updatedMetidations = state.value.map((v, i) => {
+            const updateData = state.value.map((v, i) => {
                 if (Number(i) === Number(updateIndex)) {
                     return { ...v, ...newFormValue };
                 }
                 return v;
             });
-            console.log(updatedMetidations)
-            state.value = updatedMetidations;
+            //console.log(updateData)
+            state.value = updateData;
         },
         deleteMeditationUpdate: (state, action) => {
             let newData = state.value.filter((v, i) => i !== action.payload);
