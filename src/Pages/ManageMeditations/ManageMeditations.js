@@ -82,6 +82,8 @@ function ManageMeditations(props) {
                                         <th className='text-nowrap text-white pb-3 border-bottom border-secondary'>No.</th>
                                         <th className='text-nowrap text-white pb-3 border-bottom border-secondary'>Name</th>
                                         <th className='text-nowrap text-white pb-3 border-bottom border-secondary'>Image</th>
+                                        <th className='text-nowrap text-white pb-3 border-bottom border-secondary'>Details</th>
+
                                         <th className='text-nowrap text-white pb-3 border-bottom border-secondary'>Audio</th>
                                         <th className='text-nowrap text-white pb-3 border-bottom border-secondary'>Audio duration</th>
                                         <th className='text-nowrap text-white pb-3 border-bottom border-secondary'>Control</th>
@@ -96,6 +98,8 @@ function ManageMeditations(props) {
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     <img src={v.image_field} alt="img" height="50px" />
                                                 </td>
+                                                <td className='py-3 border-bottom border-secondary'>{v.details_field}</td>
+
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     {v.audio_field !== '' && (
                                                         <button className='btn btn-success btn-sm' onClick={(event) => playAudioHandle(v.audio_field, event.target)}>

@@ -15,6 +15,9 @@ function AddMeditation(props) {
     const name_field = useRef();
     const image_field = useRef();
     const audio_field = useRef();
+    const details_field = useRef();
+
+
     const dispatch = useDispatch();
     let stateList = useSelector(state => state.addMeditation.value);
 
@@ -79,6 +82,7 @@ function AddMeditation(props) {
                 id: generateUUID(),
                 name_field: name_field.current.value,
                 image_field: img_src,
+                details_field: details_field.current.value,
                 audio_field: '',
                 audio_duration: '',
             };
@@ -108,8 +112,6 @@ function AddMeditation(props) {
                     })
 
                 };
-
-
                 reader.readAsDataURL(audioFile);
             } else {
                 if (updateIndex) {
@@ -142,7 +144,10 @@ function AddMeditation(props) {
                         <label htmlFor="image_field" className='d-block mb-2'>Image upload</label>
                         <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
                     </div>
-
+                    <div className="form-group mb-3">
+                        <label className='mb-2' htmlFor="details_field">Details</label>
+                        <textarea ref={details_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].details_field : ''} name="" id="details_field" rows="3" placeholder='Enter details' className="form-control w-100"></textarea>
+                    </div>
                     <div className="form-group mb-4">
                         <label className='mb-2' htmlFor="audio_field">Audio upload</label>
                         <input type="file" accept='.mp3,.amr,.wav' ref={audio_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].number_of_cycles_field : ''} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
@@ -150,7 +155,7 @@ function AddMeditation(props) {
 
                     <div className="form-group mb-3 text-center">
                         <button className="btn btn-primary px-5">
-                            {updateIndex  && stateList.length > 0 ? 'Update' : 'Submit'}
+                            {updateIndex && stateList.length > 0 ? 'Update' : 'Submit'}
                         </button>
                     </div>
 
