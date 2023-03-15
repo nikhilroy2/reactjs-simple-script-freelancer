@@ -2,8 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addMeditationList, updateAddMeditation } from '../../Redux/State/AddMeditationSlice/AddMeditationSlice';
 
+import { addMeditationList, updateAddMeditation } from '../../Redux/State/AddMeditationSlice/AddMeditationSlice';
 function AddMeditation(props) {
     const navigate = useNavigate();
     const location = useLocation();
@@ -15,7 +15,6 @@ function AddMeditation(props) {
     const name_field = useRef();
     const image_field = useRef();
     const audio_field = useRef();
-
     const dispatch = useDispatch();
     let stateList = useSelector(state => state.addMeditation.value);
 
@@ -30,15 +29,16 @@ function AddMeditation(props) {
 
         reader.onloadend = () => {
             img_local_src = reader.result;
-            getAudioSrc(img_local_src);
-        };
+            getAudioSrc(img_local_src)
+        }
         if (file) {
             reader.readAsDataURL(file);
         }
 
         if (image_field.current.value === '') {
-            getAudioSrc();
+            getAudioSrc()
         }
+
 
         function generateUUID() {
             const cryptoObj = window.crypto || window.msCrypto; // for IE 11
@@ -72,7 +72,6 @@ function AddMeditation(props) {
             }
         }
 
-
         function getAudioSrc(img_src = '') {
             let audioFile = audio_field.current.files[0];
             //console.log('audioFile', audioFile)
@@ -85,6 +84,7 @@ function AddMeditation(props) {
             };
             if (audioFile) {
                 let reader = new FileReader();
+
                 reader.onloadend = () => {
                     let audio = new Audio(reader.result);
                     audio.addEventListener('loadedmetadata', () => {
@@ -92,11 +92,10 @@ function AddMeditation(props) {
                         newFormValue.audio_field = reader.result;
 
                         let formattedDuration = formatTime(audio.duration);
-                        console.log(formattedDuration)
+                        //console.log(formattedDuration)
                         newFormValue.audio_duration = formattedDuration;
                         //console.log(reader.result)
                         if (updateIndex) {
-                            console.log('updated', newFormValue)
                             dispatch(updateAddMeditation(newFormValue));
                             alert('Information update successfully!');
                             navigate('/manage_meditation'); // redirect to manage timer page
@@ -109,25 +108,24 @@ function AddMeditation(props) {
                     })
 
                 };
+
+
                 reader.readAsDataURL(audioFile);
             } else {
                 if (updateIndex) {
-                    console.log('updated', newFormValue)
-
-                    dispatch(updateAddMeditation(newFormValue));
-                    alert('Information update successfully!');
-                    navigate('/manage_meditation'); // redirect to manage timer page
+                    dispatch(updateAddMeditation({ updateIndex, newFormValue }));
+                    alert('Information added successfully!');
                 } else {
                     dispatch(addMeditationList(newFormValue));
                     alert('Information added successfully!');
-                    navigate('/manage_meditation'); // redirect to manage timer page
                 }
+                navigate('/manage_meditation'); // redirect to manage timer page
+
             }
         }
-    };
-
+    }
     return (
-        <div id='addTimer'>
+        <div id='addMeditation'>
             <div className="container">
                 <div className="jumbotron jumbotron-fluid  my-3 text-center">
                     <div className="p-4">
@@ -142,21 +140,17 @@ function AddMeditation(props) {
 
                     <div className="form-group mb-3">
                         <label htmlFor="image_field" className='d-block mb-2'>Image upload</label>
-                        <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} 
-                        className="form-control-file form-control" id="image_field" />
+                        <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
                     </div>
-
 
                     <div className="form-group mb-4">
                         <label className='mb-2' htmlFor="audio_field">Audio upload</label>
-                        <input type="file" accept='.mp3,.amr,.wav' ref={audio_field} 
-                        defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].number_of_cycles_field : ''} 
-                        className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
+                        <input type="file" accept='.mp3,.amr,.wav' ref={audio_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].number_of_cycles_field : ''} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
                     </div>
 
                     <div className="form-group mb-3 text-center">
                         <button className="btn btn-primary px-5">
-                            {updateIndex && stateList.length > 0 ? 'Update' : 'Submit'}
+                            {updateIndex  && stateList.length > 0 ? 'Update' : 'Submit'}
                         </button>
                     </div>
 

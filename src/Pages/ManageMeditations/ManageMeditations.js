@@ -122,7 +122,7 @@ function ManageMeditations(props) {
 
                         </div>
 
-                    ) : <h3 className="p-5 text-center text-white"> No data found!</h3>}
+                    ) : <h3 className="p-5 text-center text-black"> No data found!</h3>}
 
                 </div>
             </div>

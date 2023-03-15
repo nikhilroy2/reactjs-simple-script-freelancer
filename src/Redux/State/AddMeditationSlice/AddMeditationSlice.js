@@ -18,7 +18,6 @@ export const addMeditationSlice = createSlice({
                 }
                 return v;
             });
-            //console.log(updateData)
             state.value = updateData;
         },
         deleteMeditationUpdate: (state, action) => {
