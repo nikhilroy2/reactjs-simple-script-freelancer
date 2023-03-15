@@ -99,11 +99,11 @@ function AddAffirmations(props) {
                         if (updateIndex) {
                             dispatch(updateAddAffirmation(newFormValue));
                             alert('Information update successfully!');
-                            navigate('/manage_meditation'); // redirect to manage timer page
+                            navigate('/manage_affirmations'); // redirect to manage timer page
                         } else {
                             dispatch(addAffirmationList(newFormValue));
                             alert('Information added successfully!');
-                            navigate('/manage_meditation'); // redirect to manage timer page
+                            navigate('/manage_affirmations'); // redirect to manage timer page
                         }
 
                     })
@@ -130,10 +130,10 @@ function AddAffirmations(props) {
             <div className="container">
                 <div className="jumbotron jumbotron-fluid  my-3 text-center">
                     <div className="p-4">
-                        <h1 className="display-4 text-white fw-bold"> {updateIndex && stateList.length > 0 ? 'Update Affirmations' : 'Add Affirmations'}</h1>
+                        <h1 className="display-4 text-black fw-bold"> {updateIndex && stateList.length > 0 ? 'Update Affirmations' : 'Add Affirmations'}</h1>
                     </div>
                 </div>
-                <form onSubmit={event => submitFormHandle(event)} className='text-white mx-auto my-3 shadow rounded border border-secondary bg-dark px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
+                <form onSubmit={event => submitFormHandle(event)} className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="name_field">Name</label>
                         <input defaultValue={updateIndex ? stateList[updateIndex].name_field : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
@@ -141,7 +141,7 @@ function AddAffirmations(props) {
 
                     <div className="form-group mb-3">
                         <label htmlFor="image_field" className='d-block mb-2'>Image upload</label>
-                        <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file" id="image_field" />
+                        <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
                     </div>
 
                     <div className="form-group mb-3">

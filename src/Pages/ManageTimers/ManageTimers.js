@@ -30,7 +30,7 @@ function ManageTimers(props) {
             <div className="container">
                 <div className="jumbotron jumbotron-fluid  my-3 text-center">
                     <div className="p-4">
-                        <h1 className="display-4 text-white fw-bold">Manage Timers</h1>
+                        <h1 className="display-4 text-black fw-bold">Manage Timers</h1>
                     </div>
                 </div>
 
@@ -39,7 +39,7 @@ function ManageTimers(props) {
 
                     {addTimerInfo.length > 0 ? (
                         <div className="table-responsive">
-                            <table className="table text-white table-borderless border border-secondary">
+                            <table className="table text-black table-borderless border border-secondary">
                                 <thead className='border-0'>
                                     <tr className='border-0 bg-secondary'>
                                         <th className='text-nowrap text-white pb-3 border-bottom border-secondary'>No.</th>
@@ -89,7 +89,7 @@ function ManageTimers(props) {
 
                         </div>
 
-                    ) : <h3 className="p-5 text-center text-white"> No data found!</h3>}
+                    ) : <h3 className="p-5 text-center text-black"> No data found!</h3>}
 
                 </div>
             </div>

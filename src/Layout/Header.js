@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 function Header(props) {
     return (
-        <header className='bg-dark border-bottom border-secondary'>
+        <header className='bg-light border-bottom border-secondary'>
             <div className="container">
-                <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+                <nav className="navbar navbar-expand-sm navbar-light bg-light">
                     <div className="container-fluid">
                         <Link className="navbar-brand" to="/">Logo</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
@@ -13,22 +13,22 @@ function Header(props) {
                         <div className="collapse navbar-collapse" id="mynavbar">
                             <ul className="navbar-nav me-auto">
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/add_timer">Add timer</Link>
+                                    <Link className="nav-link text-black" to="/add_timer">Add timer</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/manage_timers">Manage timers</Link>
+                                    <Link className="nav-link text-black" to="/manage_timers">Manage timers</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/add_meditation">Add meditation</Link>
+                                    <Link className="nav-link text-black" to="/add_meditation">Add meditation</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/manage_meditation">Manage meditation</Link>
+                                    <Link className="nav-link text-black" to="/manage_meditation">Manage meditation</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/add_affirmations">Add affirmations</Link>
+                                    <Link className="nav-link text-black" to="/add_affirmations">Add affirmations</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link text-white" to="/manage_affirmations">Manage affirmations</Link>
+                                    <Link className="nav-link text-black" to="/manage_affirmations">Manage affirmations</Link>
                                 </li>
                             </ul>
                             <form className="d-flex">

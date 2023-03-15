@@ -30,20 +30,25 @@ function ManageMeditations(props) {
     }
 
     const playAudioHandle = (src, _self) => {
-        let audio = new Audio();
-        audio.src = src;
-        audio.play();
-        console.log(_self)
-        audio.onplay = e => {
-            _self.innerHTML = 'Playing';
-            _self.classList.add('disabled')
-        }
+        let audio = audioRef.current;
 
-        audio.onended = e => {
+        if (audio && !audio.paused && audio.src === src) {
+            audio.pause();
             _self.innerHTML = 'Play';
-            _self.removeClass('disabled')
-        };
-        audioRef.current = audio;
+        } else {
+            audio = new Audio();
+            audio.src = src;
+            audio.play();
+            audioRef.current = audio;
+
+            audio.onplay = e => {
+                _self.innerHTML = 'Pause';
+            }
+
+            audio.onended = e => {
+                _self.innerHTML = 'Play';
+            };
+        }
     }
 
     useEffect(() => {
@@ -61,7 +66,7 @@ function ManageMeditations(props) {
             <div className="container">
                 <div className="jumbotron jumbotron-fluid  my-3 text-center">
                     <div className="p-4">
-                        <h1 className="display-4 text-white fw-bold">Manage Meditation</h1>
+                        <h1 className="display-4 text-black fw-bold">Manage Meditation</h1>
                     </div>
                 </div>
 
@@ -70,7 +75,7 @@ function ManageMeditations(props) {
 
                     {stateList.length > 0 ? (
                         <div className="table-responsive">
-                            <table className="table text-white table-borderless border border-secondary">
+                            <table className="table text-black table-borderless border border-secondary">
                                 <thead className='border-0'>
                                     <tr className='border-0 bg-secondary'>
                                         <th className='text-nowrap text-white pb-3 border-bottom border-secondary'>No.</th>
