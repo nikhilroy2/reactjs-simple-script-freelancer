@@ -6,10 +6,10 @@ export const addTimerSlice = createSlice({
         value: []
     },
     reducers: {
-        addTimerList: async (state, action) => {
+        addTimerList:  (state, action) => {
             //console.log(action)
-            const addedTimer = await addTimer(action.payload);
-            (state.value).push(addedTimer)
+            //const addedTimer = await addTimer(action.payload);
+            (state.value).push(action.payload)
 
         },
         updateAddTimer: async (state, action) => {

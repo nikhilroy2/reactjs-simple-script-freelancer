@@ -68,7 +68,7 @@ function AddTimer(props) {
                 buffer[7].toString(16)
             );
         }
-        async function dataResult(image_src = '') {
+        function dataResult(image_src = '') {
             let newFormValue = {
                 id: generateUUID(),
                 name_field: name_field.current.value,
@@ -90,17 +90,17 @@ function AddTimer(props) {
             } else {
 
                 // for add data
-                try {
-                    const response = await axios.post(`https://temp.thejournalapp.com/freelancer/api/add_timer.php`, newFormValue);
-                    console.log('response', response)
-                    return response.data;
-                } catch (er) {
-                    console.log('error', er)
-                }
-                //dispatch(addTimerList(newFormValue));
+                // try {
+                //     const response = await axios.post(`https://temp.thejournalapp.com/freelancer/api/add_timer.php`, newFormValue);
+                //     console.log('response', response)
+                //     return response.data;
+                // } catch (er) {
+                //     console.log('error', er)
+                // }
+                dispatch(addTimerList(newFormValue));
 
                 alert('Information added successfully!')
-                // navigate('/manage_timers') // redirect to manage timer page
+                navigate('/manage_timers') // redirect to manage timer page
 
             }
 
