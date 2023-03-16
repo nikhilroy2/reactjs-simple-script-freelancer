@@ -29,23 +29,26 @@ function AddTimer(props) {
     const submitFormHandle = (event) => {
         event.preventDefault();
 
-        // for img field local use.
         let img_local_src = '';
-        //console.log(image_field.current.files[0])
         let reader = new FileReader();
         let file = image_field.current.files[0];
 
-        reader.onloadend = () => {
-            img_local_src = reader.result;
-            dataResult(img_local_src)
+        reader.onloadend = () => { 
+            let img_data = reader.result;
+            let base64_data = btoa(img_data);
+            img_local_src = `data:image/jpeg;base64,${base64_data}`;
+            dataResult(img_local_src);
         }
+
         if (file) {
-            reader.readAsDataURL(file);
+            reader.readAsBinaryString(file);
         }
 
         if (image_field.current.value === '') {
-            dataResult()
+            dataResult();
         }
+
+        
         function generateUUID() {
             const cryptoObj = window.crypto || window.msCrypto; // for IE 11
             const buffer = new Uint16Array(8);
@@ -69,7 +72,7 @@ function AddTimer(props) {
             let newFormValue = {
                 id: generateUUID(),
                 name_field: name_field.current.value,
-                image_field: image_field.current.value,
+                image_field: image_src,
                 inhale_field: inhale_field.current.value,
                 hold_1_field: hold_1_field.current.value,
                 exhale_field: exhale_field.current.value,
@@ -79,8 +82,8 @@ function AddTimer(props) {
 
             if (updateIndex) {
                 // for update data
-                //console.log('updateIndex', updateIndex)
-                //dispatch(updateAddTimer({ updateIndex, newFormValue }));
+                console.log('updateIndex', updateIndex)
+                dispatch(updateAddTimer({ updateIndex, newFormValue }));
 
                 alert('Information updated successfully!')
                 navigate('/manage_timers') // redirect to manage timer page
@@ -94,7 +97,7 @@ function AddTimer(props) {
                 } catch (er) {
                     console.log('error', er)
                 }
-                //dispatch(addTimerList(newFormValue));
+                dispatch(addTimerList(newFormValue));
 
                 alert('Information added successfully!')
                 // navigate('/manage_timers') // redirect to manage timer page
