@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { addTimerList, updateAddTimer } from '../../Redux/State/AddTimer/AddTimerSlice';
-
+import axios from 'axios';
 
 function AddTimer(props) {
     // updating var
@@ -65,11 +65,11 @@ function AddTimer(props) {
                 buffer[7].toString(16)
             );
         }
-        function dataResult(image_src = '') {
+        async function dataResult(image_src = '') {
             let newFormValue = {
                 id: generateUUID(),
                 name_field: name_field.current.value,
-                image_field: image_src !== '' ? image_src : '',
+                image_field: image_field.current.value,
                 inhale_field: inhale_field.current.value,
                 hold_1_field: hold_1_field.current.value,
                 exhale_field: exhale_field.current.value,
@@ -80,17 +80,24 @@ function AddTimer(props) {
             if (updateIndex) {
                 // for update data
                 //console.log('updateIndex', updateIndex)
-                dispatch(updateAddTimer({ updateIndex, newFormValue }));
+                //dispatch(updateAddTimer({ updateIndex, newFormValue }));
 
                 alert('Information updated successfully!')
                 navigate('/manage_timers') // redirect to manage timer page
             } else {
 
                 // for add data
-                dispatch(addTimerList(newFormValue));
+                try {
+                    const response = await axios.post(`https://temp.thejournalapp.com/freelancer/api/add_timer.php`, newFormValue);
+                    console.log('response', response)
+                    return response.data;
+                } catch (er) {
+                    console.log('error', er)
+                }
+                //dispatch(addTimerList(newFormValue));
 
                 alert('Information added successfully!')
-                navigate('/manage_timers') // redirect to manage timer page
+                // navigate('/manage_timers') // redirect to manage timer page
 
             }
 
