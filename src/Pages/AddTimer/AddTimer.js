@@ -97,7 +97,7 @@ function AddTimer(props) {
                 } catch (er) {
                     console.log('error', er)
                 }
-                dispatch(addTimerList(newFormValue));
+                //dispatch(addTimerList(newFormValue));
 
                 alert('Information added successfully!')
                 // navigate('/manage_timers') // redirect to manage timer page
