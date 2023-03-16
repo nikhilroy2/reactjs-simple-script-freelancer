@@ -21,7 +21,6 @@ function App() {
             <Route path="/add_affirmations" element={<AddAffirmations></AddAffirmations>}></Route>
             <Route path="/manage_affirmations" element={<ManageAffirmations></ManageAffirmations>}></Route>
             <Route path="*" element={<Homepage></Homepage>}></Route>
-
           </Routes>
         </Base>
       </BrowserRouter>
