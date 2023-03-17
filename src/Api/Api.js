@@ -35,7 +35,7 @@ export const addTimerApi = async (getData) => {
 
 
 export const updateTimerApi = async (id, updatedTimer) => {
-  const response = await axios.post(`${BASE_URL}/update_timer.php?id=${id}`, updatedTimer, {
+  const response = await axios.post(`${BASE_URL}/add_timer.php?update=${id}`, updatedTimer, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }

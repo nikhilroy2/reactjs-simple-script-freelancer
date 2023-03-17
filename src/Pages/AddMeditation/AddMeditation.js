@@ -145,7 +145,7 @@ function AddMeditation(props) {
                 <form onSubmit={event => submitFormHandle(event)} className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="name_field">Name</label>
-                        <input defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].name_field : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
+                        <input required defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].name_field : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
                     </div>
 
                     <div className="form-group mb-3">
@@ -154,11 +154,11 @@ function AddMeditation(props) {
                     </div>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="details_field">Details</label>
-                        <textarea ref={details_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].details_field : ''} name="" id="details_field" rows="3" placeholder='Enter details' className="form-control w-100"></textarea>
+                        <textarea required ref={details_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].details_field : ''} name="" id="details_field" rows="3" placeholder='Enter details' className="form-control w-100"></textarea>
                     </div>
                     <div className="form-group mb-4">
                         <label className='mb-2' htmlFor="audio_field">Audio upload</label>
-                        <input type="file" accept='.mp3,.amr,.wav' ref={audio_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].number_of_cycles_field : ''} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
+                        <input required type="file" accept='.mp3,.amr,.wav' ref={audio_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].number_of_cycles_field : ''} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
                     </div>
 
                     <div className="form-group mb-3 text-center">
