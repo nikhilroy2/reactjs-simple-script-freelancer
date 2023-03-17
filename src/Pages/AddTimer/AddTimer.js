@@ -121,7 +121,7 @@ function AddTimer(props) {
             <div className="container">
                 <div className="jumbotron jumbotron-fluid  my-3 text-center">
                     <div className="p-4">
-                        <h1 className="display-4 text-black fw-bold"> {updateIndex && addTimerInfo.length > 0 ? 'Update Timer' : 'Add Timer'}</h1>
+                        <h1 className="display-4 text-black fw-bold"> {updateIndex ? 'Update Timer' : 'Add Timer'}</h1>
                     </div>
                 </div>
                 <form onSubmit={event => submitFormHandle(event)} className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
@@ -161,7 +161,7 @@ function AddTimer(props) {
 
                     <div className="form-group mb-3 text-center">
                         <button className="btn btn-primary px-5">
-                            {updateIndex && addTimerInfo.length > 0 ? 'Update' : 'Submit'}
+                            {updateIndex  ? 'Update' : 'Submit'}
                         </button>
                     </div>
 

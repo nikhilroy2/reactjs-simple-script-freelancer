@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { addMeditationList, updateAddMeditation, deleteMeditationUpdate } from '../../Redux/State/AddMeditationSlice/AddMeditationSlice';
+//import { addMeditationList, updateAddMeditation, deleteMeditationUpdate } from '../../Redux/State/AddMeditationSlice/AddMeditationSlice';
+import { getMeditationApi, deleteMeditationApi } from '../../Api/Api';
+
 function ManageMeditations(props) {
     const navigate = useNavigate();
     let audioRef = useRef()
     const dispatch = useDispatch();
-    let stateList = useSelector(state => state.addMeditation.value);
     //console.log(addTimerInfo)
     const editHandle = (index) => {
         let isConfirm = window.confirm('Are you sure to update it?')
@@ -15,13 +16,14 @@ function ManageMeditations(props) {
         }
     }
 
-    const deleteHandle = (index) => {
+    const deleteHandle = async (index) => {
 
         // deleting item
         let isConfirm = window.confirm('Are you sure to delete it?')
 
         if (isConfirm) {
-            dispatch(deleteMeditationUpdate(index));
+            //dispatch(deleteMeditationUpdate(index));
+            await deleteMeditationApi(index)
             if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current.currentTime = 0;
@@ -51,7 +53,17 @@ function ManageMeditations(props) {
         }
     }
 
+
+    let [stateList, setStateList] = useState([]);
+
+
+    let fetchData = async () => {
+        const data = await getMeditationApi();
+        setStateList(data.data);
+    }
+
     useEffect(() => {
+        fetchData();
         return () => {
             // stop audio playback when unmounting component
             if (audioRef.current) {
@@ -60,7 +72,7 @@ function ManageMeditations(props) {
             }
         };
     }, []);
-    console.log(stateList)
+    //console.log(stateList)
 
     return (
         <div id='manageTimers'>

@@ -38,7 +38,7 @@ function ManageTimers(props) {
 
     useEffect(() => {
         fetchData();
-    }, [])
+    }, [navigate])
     return (
         <div id='manageTimers'>
             <div className="container">

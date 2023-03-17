@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 // import { useSelector, useDispatch } from 'react-redux';
 
 
-import { addMeditationList, updateAddMeditation } from '../../Redux/State/AddMeditationSlice/AddMeditationSlice';
+//import { addMeditationList, updateAddMeditation } from '../../Redux/State/AddMeditationSlice/AddMeditationSlice';
+import { addMeditationApi, updateMeditationApi } from '../../Api/Api';
 function AddMeditation(props) {
     const navigate = useNavigate();
     const location = useLocation();
@@ -20,7 +21,7 @@ function AddMeditation(props) {
     // let stateList = useSelector(state => state.addMeditation.value);
     const [stateList, setStateList] = useState([]);
 
-    
+
     const submitFormHandle = (event) => {
         event.preventDefault();
 
@@ -75,7 +76,7 @@ function AddMeditation(props) {
             }
         }
 
-        function getAudioSrc(img_src = '') {
+        async function getAudioSrc(img_src = '') {
             let audioFile = audio_field.current.files[0];
             //console.log('audioFile', audioFile)
             let newFormValue = {
@@ -91,7 +92,7 @@ function AddMeditation(props) {
 
                 reader.onloadend = () => {
                     let audio = new Audio(reader.result);
-                    audio.addEventListener('loadedmetadata', () => {
+                    audio.addEventListener('loadedmetadata', async () => {
 
                         newFormValue.audio_field = reader.result;
 
@@ -101,10 +102,15 @@ function AddMeditation(props) {
                         //console.log(reader.result)
                         if (updateIndex) {
                             // dispatch(updateAddMeditation(newFormValue));
+                            await updateMeditationApi(updateIndex, newFormValue)
+
                             alert('Information update successfully!');
                             navigate('/manage_meditation'); // redirect to manage timer page
                         } else {
                             // dispatch(addMeditationList(newFormValue));
+                            console.log(newFormValue)
+                            await addMeditationApi(newFormValue)
+
                             alert('Information added successfully!');
                             navigate('/manage_meditation'); // redirect to manage timer page
                         }
@@ -116,9 +122,11 @@ function AddMeditation(props) {
             } else {
                 if (updateIndex) {
                     // dispatch(updateAddMeditation({ updateIndex, newFormValue }));
+                    await updateMeditationApi(updateIndex, newFormValue)
                     alert('Information added successfully!');
                 } else {
                     // dispatch(addMeditationList(newFormValue));
+                    await addMeditationApi(newFormValue)
                     alert('Information added successfully!');
                 }
                 navigate('/manage_meditation'); // redirect to manage timer page

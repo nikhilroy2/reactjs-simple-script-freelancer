@@ -29,7 +29,7 @@ export const addTimerApi = async (getData) => {
 
 
 export const updateTimerApi = async (id, updatedTimer) => {
-  const response = await axios.put(`${BASE_URL}/get_timer.php?id=${id}`, updatedTimer, {
+  const response = await axios.post(`${BASE_URL}/add_timer.php?id=${id}`, updatedTimer, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
@@ -56,13 +56,13 @@ export const deleteTimerApi = async (id) => {
 
 // .......................add Meditation axios.................................
 export const getMeditationApi = async () => {
-  const response = await axios.get(`${BASE_URL}/get_timers.php`);
+  const response = await axios.get(`${BASE_URL}/get_meditations.php`);
   return response.data;
 };
 
 export const addMeditationApi = async (getData) => {
   //const response = await axios.post(`${BASE_URL}/timers`, getData);
-  const response = await axios.post(`${BASE_URL}/add_timer.php`, getData, {
+  const response = await axios.post(`${BASE_URL}/add_meditation.php`, getData, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
@@ -80,7 +80,7 @@ export const addMeditationApi = async (getData) => {
 
 
 export const updateMeditationApi = async (id, updatedTimer) => {
-  const response = await axios.put(`${BASE_URL}/get_timer.php?id=${id}`, updatedTimer, {
+  const response = await axios.post(`${BASE_URL}/add_meditation.php?id=${id}`, updatedTimer, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
@@ -90,7 +90,7 @@ export const updateMeditationApi = async (id, updatedTimer) => {
 
 
 export const deleteMeditationApi = async (id) => {
-  const response = await axios.get(`${BASE_URL}/delete_timer.php?id=${id}`, {
+  const response = await axios.get(`${BASE_URL}/delete_meditation.php?id=${id}`, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
@@ -107,13 +107,13 @@ export const deleteMeditationApi = async (id) => {
 
 // .......................add Affirmation axios.................................
 export const getAffirmationApi = async () => {
-  const response = await axios.get(`${BASE_URL}/get_timers.php`);
+  const response = await axios.get(`${BASE_URL}/get_affirmations.php`);
   return response.data;
 };
 
 export const addAffirmationApi = async (getData) => {
   //const response = await axios.post(`${BASE_URL}/timers`, getData);
-  const response = await axios.post(`${BASE_URL}/add_timer.php`, getData, {
+  const response = await axios.post(`${BASE_URL}/add_affirmation.php`, getData, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
@@ -131,7 +131,7 @@ export const addAffirmationApi = async (getData) => {
 
 
 export const updateAffirmationApi = async (id, updatedTimer) => {
-  const response = await axios.put(`${BASE_URL}/get_timer.php?id=${id}`, updatedTimer, {
+  const response = await axios.post(`${BASE_URL}/add_affirmation.php?id=${id}`, updatedTimer, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
@@ -141,7 +141,7 @@ export const updateAffirmationApi = async (id, updatedTimer) => {
 
 
 export const deleteAffirmationApi = async (id) => {
-  const response = await axios.get(`${BASE_URL}/delete_timer.php?id=${id}`, {
+  const response = await axios.get(`${BASE_URL}/delete_affirmation.php?id=${id}`, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
