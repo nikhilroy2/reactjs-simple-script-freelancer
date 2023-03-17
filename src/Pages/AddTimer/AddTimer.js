@@ -35,9 +35,7 @@ function AddTimer(props) {
         //console.log(newData)
         setAddTimerInfo((data.data));
     }
-    if (updateIndex) {
-        fetchData(updateIndex) // 
-    }
+   
     //console.log(addTimerInfo.length)
 
     const submitFormHandle = (event) => {
@@ -116,8 +114,10 @@ function AddTimer(props) {
     };
 
     useEffect(() => {
-
-    },)
+        if (updateIndex && addTimerInfo.length === 0) {
+            fetchData(updateIndex) // 
+        }
+    })
     return (
         <div id='addTimer'>
             <div className="container">
