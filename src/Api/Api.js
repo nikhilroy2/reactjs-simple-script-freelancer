@@ -17,7 +17,7 @@ export const addTimerApi = async (newTimer) => {
     }
   });
   //console.log('responseData', response)
-  if(response.status === 200){
+  if (response.status === 200) {
     console.log('newTimer', newTimer);
     return newTimer;
   }
@@ -34,7 +34,12 @@ export const updateTimerApi = async (id, updatedTimer) => {
 };
 
 export const deleteTimerApi = async (id) => {
-  await axios.delete(`${BASE_URL}/delete_timer/${id}.php`);
+  const response = await axios.delete(`http://temp.thejournalapp.com/freelancer/api/delete_timer.php?id=${id}`, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
+  console.log(response)
 };
 
 // add timer axios end
