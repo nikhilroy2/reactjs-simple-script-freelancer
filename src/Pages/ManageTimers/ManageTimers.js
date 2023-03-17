@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { addTimerList, deleteTimerUpdate } from '../../Redux/State/AddTimer/AddTimerSlice';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { addTimerList, deleteTimerUpdate } from '../../Redux/State/AddTimer/AddTimerSlice';
 
 import { getTimersApi, deleteTimerApi } from '../../Api/Api';
 
 function ManageTimers(props) {
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-    let addTimerInfo = useSelector(state => state.addTimer.value);
-    //console.log(addTimerInfo)
+    let fetchData = async () => {
+        const data = await getTimersApi();
+        setAddTimerInfo(data.data);
+    }
+
     const editHandle = (index) => {
         let isConfirm = window.confirm('Are you sure to update it?')
         if (isConfirm) {
@@ -25,21 +27,18 @@ function ManageTimers(props) {
 
         let deleteAction = async () => {
             if (isConfirm) {
-                dispatch(deleteTimerUpdate(await deleteTimerApi(index)));
+                await deleteTimerApi(index);
+                fetchData();
             }
         }
         deleteAction();
     }
+
+    const [addTimerInfo, setAddTimerInfo] = useState([]);
+
     useEffect(() => {
-        let fetchData = async () => {
-            const data = await getTimersApi();
-            Array.from((data.data)).forEach((v) => {
-                //console.log('manageTimer', v)
-                dispatch(addTimerList(v))
-            })
-        }
         fetchData();
-    }, [dispatch])
+    }, [])
     return (
         <div id='manageTimers'>
             <div className="container">

@@ -3,23 +3,23 @@ import axios from 'axios';
 const BASE_URL = 'http://temp.thejournalapp.com/freelancer/api';
 
 
-// add timer axios
+// .......................add timer axios.................................
 export const getTimersApi = async () => {
   const response = await axios.get(`${BASE_URL}/get_timers.php`);
   return response.data;
 };
 
-export const addTimerApi = async (newTimer) => {
-  //const response = await axios.post(`${BASE_URL}/timers`, newTimer);
-  const response = await axios.post(`${BASE_URL}/add_timer.php`, newTimer, {
+export const addTimerApi = async (getData) => {
+  //const response = await axios.post(`${BASE_URL}/timers`, getData);
+  const response = await axios.post(`${BASE_URL}/add_timer.php`, getData, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
   });
   //console.log('responseData', response)
   if (response.status === 200) {
-    console.log('newTimer', newTimer);
-    return newTimer;
+    console.log('getData', getData);
+    return getData;
   }
   //return response.data;
   //return response.data;
@@ -29,12 +29,17 @@ export const addTimerApi = async (newTimer) => {
 
 
 export const updateTimerApi = async (id, updatedTimer) => {
-  const response = await axios.put(`${BASE_URL}/timers/${id}`, updatedTimer);
+  const response = await axios.put(`${BASE_URL}/get_timer.php?id=${id}`, updatedTimer, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
   return response.data;
 };
 
+
 export const deleteTimerApi = async (id) => {
-  const response = await axios.delete(`http://temp.thejournalapp.com/freelancer/api/delete_timer.php?id=${id}`, {
+  const response = await axios.get(`${BASE_URL}/delete_timer.php?id=${id}`, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
@@ -42,4 +47,107 @@ export const deleteTimerApi = async (id) => {
   console.log(response)
 };
 
-// add timer axios end
+// .......................add timer axios................................. End
+
+
+
+
+
+
+// .......................add Meditation axios.................................
+export const getMeditationApi = async () => {
+  const response = await axios.get(`${BASE_URL}/get_timers.php`);
+  return response.data;
+};
+
+export const addMeditationApi = async (getData) => {
+  //const response = await axios.post(`${BASE_URL}/timers`, getData);
+  const response = await axios.post(`${BASE_URL}/add_timer.php`, getData, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
+  //console.log('responseData', response)
+  if (response.status === 200) {
+    console.log('getData', getData);
+    return getData;
+  }
+  //return response.data;
+  //return response.data;
+};
+
+
+
+
+export const updateMeditationApi = async (id, updatedTimer) => {
+  const response = await axios.put(`${BASE_URL}/get_timer.php?id=${id}`, updatedTimer, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
+  return response.data;
+};
+
+
+export const deleteMeditationApi = async (id) => {
+  const response = await axios.get(`${BASE_URL}/delete_timer.php?id=${id}`, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
+  console.log(response)
+};
+
+// .......................add Meditation axios................................. End
+
+
+
+
+
+
+// .......................add Affirmation axios.................................
+export const getAffirmationApi = async () => {
+  const response = await axios.get(`${BASE_URL}/get_timers.php`);
+  return response.data;
+};
+
+export const addAffirmationApi = async (getData) => {
+  //const response = await axios.post(`${BASE_URL}/timers`, getData);
+  const response = await axios.post(`${BASE_URL}/add_timer.php`, getData, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
+  //console.log('responseData', response)
+  if (response.status === 200) {
+    console.log('getData', getData);
+    return getData;
+  }
+  //return response.data;
+  //return response.data;
+};
+
+
+
+
+export const updateAffirmationApi = async (id, updatedTimer) => {
+  const response = await axios.put(`${BASE_URL}/get_timer.php?id=${id}`, updatedTimer, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
+  return response.data;
+};
+
+
+export const deleteAffirmationApi = async (id) => {
+  const response = await axios.get(`${BASE_URL}/delete_timer.php?id=${id}`, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  });
+  console.log(response)
+};
+
+// .......................add Affirmation axios................................. End
+

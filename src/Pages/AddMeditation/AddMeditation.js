@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 
 
 import { addMeditationList, updateAddMeditation } from '../../Redux/State/AddMeditationSlice/AddMeditationSlice';
@@ -9,8 +9,6 @@ function AddMeditation(props) {
     const location = useLocation();
     const updateIndex = new URLSearchParams(location.search).get("update");
 
-
-
     // field default value
     const name_field = useRef();
     const image_field = useRef();
@@ -18,9 +16,11 @@ function AddMeditation(props) {
     const details_field = useRef();
 
 
-    const dispatch = useDispatch();
-    let stateList = useSelector(state => state.addMeditation.value);
+    // const dispatch = useDispatch();
+    // let stateList = useSelector(state => state.addMeditation.value);
+    const [stateList, setStateList] = useState([]);
 
+    
     const submitFormHandle = (event) => {
         event.preventDefault();
 
@@ -100,11 +100,11 @@ function AddMeditation(props) {
                         newFormValue.audio_duration = formattedDuration;
                         //console.log(reader.result)
                         if (updateIndex) {
-                            dispatch(updateAddMeditation(newFormValue));
+                            // dispatch(updateAddMeditation(newFormValue));
                             alert('Information update successfully!');
                             navigate('/manage_meditation'); // redirect to manage timer page
                         } else {
-                            dispatch(addMeditationList(newFormValue));
+                            // dispatch(addMeditationList(newFormValue));
                             alert('Information added successfully!');
                             navigate('/manage_meditation'); // redirect to manage timer page
                         }
@@ -115,10 +115,10 @@ function AddMeditation(props) {
                 reader.readAsDataURL(audioFile);
             } else {
                 if (updateIndex) {
-                    dispatch(updateAddMeditation({ updateIndex, newFormValue }));
+                    // dispatch(updateAddMeditation({ updateIndex, newFormValue }));
                     alert('Information added successfully!');
                 } else {
-                    dispatch(addMeditationList(newFormValue));
+                    // dispatch(addMeditationList(newFormValue));
                     alert('Information added successfully!');
                 }
                 navigate('/manage_meditation'); // redirect to manage timer page

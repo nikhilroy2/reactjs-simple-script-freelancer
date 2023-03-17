@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 
-import { addTimerList, updateAddTimer } from '../../Redux/State/AddTimer/AddTimerSlice';
+// import { addTimerList, updateAddTimer } from '../../Redux/State/AddTimer/AddTimerSlice';
 import axios from 'axios';
 
-import { getTimersApi, addTimerApi } from '../../Api/Api';
+import { getTimersApi, addTimerApi, updateTimerApi } from '../../Api/Api';
 
 function AddTimer(props) {
     // updating var
@@ -24,8 +24,19 @@ function AddTimer(props) {
     const hold_2_field = useRef();
     const number_of_cycles_field = useRef();
     //const [formValue, setFormValue] = useState([]);
-    const dispatch = useDispatch();
-    let addTimerInfo = useSelector(state => state.addTimer.value);
+    // const dispatch = useDispatch();
+    let [addTimerInfo, setAddTimerInfo] = useState([]);
+
+    let fetchData = async () => {
+        const data = await getTimersApi();
+        let newData = data.data.filter((v, i) => Number(i) === Number(updateIndex));
+        //console.log('newData', newData);
+        //console.log(newData[0])
+        setAddTimerInfo(newData[0]);
+    }
+    if (updateIndex) {
+        fetchData() // 
+    }
     //console.log(addTimerInfo.length)
 
     const submitFormHandle = (event) => {
@@ -84,13 +95,15 @@ function AddTimer(props) {
 
             if (updateIndex) {
                 // for update data
-                console.log('updateIndex', updateIndex)
-                dispatch(updateAddTimer({ updateIndex, newFormValue }));
-
+                //console.log('updateIndex', updateIndex)
+                // dispatch(updateAddTimer({ updateIndex, newFormValue }));
+                await updateTimerApi(updateIndex, newFormValue) // api post 
                 alert('Information updated successfully!')
                 navigate('/manage_timers') // redirect to manage timer page
             } else {
-                dispatch(addTimerList(await addTimerApi(newFormValue)));
+                // dispatch(addTimerList(await addTimerApi(newFormValue)));
+                //console.log(newFormValue)
+                await addTimerApi(newFormValue) // api post 
 
                 alert('Information added successfully!')
                 navigate('/manage_timers') // redirect to manage timer page
@@ -101,14 +114,8 @@ function AddTimer(props) {
     };
 
     useEffect(() => {
-        //  addTimerInfo.length === 0 && navigate('/add_timer');
 
-        // if empty no need to update
-        //console.log(addTimerInfo)
-        //you can use ajax request here to store in database, use addTimerInfo variable for ajax data
     },)
-    //console.log('isUpdateList', updateIndex)
-    //console.log(addTimerInfo)
     return (
         <div id='addTimer'>
             <div className="container">
@@ -120,36 +127,36 @@ function AddTimer(props) {
                 <form onSubmit={event => submitFormHandle(event)} className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="name_field">Name</label>
-                        <input defaultValue={updateIndex ? addTimerInfo[updateIndex].name_field : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
+                        <input required defaultValue={updateIndex ? addTimerInfo.name : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
                     </div>
 
                     <div className="form-group mb-3">
                         <label htmlFor="image_field" className='d-block mb-2'>Image upload</label>
-                        <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
+                        <input required type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
                     </div>
 
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="inhale_field">Inhale</label>
-                        <input type="text" defaultValue={updateIndex ? addTimerInfo[updateIndex].inhale_field : ''} ref={inhale_field} className="form-control" id="inhale_field" aria-describedby="" placeholder="Enter inhale" />
+                        <input required type="number" defaultValue={updateIndex ? addTimerInfo.inhale : ''} ref={inhale_field} className="form-control" id="inhale_field" aria-describedby="" placeholder="Enter inhale" />
                     </div>
 
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="hold_1_field">Hold 1</label>
-                        <input type="text" ref={hold_1_field} defaultValue={updateIndex ? addTimerInfo[updateIndex].hold_1_field : ''} className="form-control" id="hold_1_field" aria-describedby="" placeholder="Enter hold 1" />
+                        <input required type="number" ref={hold_1_field} defaultValue={updateIndex ? addTimerInfo.hold1 : ''} className="form-control" id="hold_1_field" aria-describedby="" placeholder="Enter hold 1" />
                     </div>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="exhale_field">Exhale</label>
-                        <input type="text" ref={exhale_field} defaultValue={updateIndex ? addTimerInfo[updateIndex].exhale_field : ''} className="form-control" id="exhale_field" aria-describedby="" placeholder="Enter exhale" />
+                        <input required type="number" ref={exhale_field} defaultValue={updateIndex ? addTimerInfo.exhale : ''} className="form-control" id="exhale_field" aria-describedby="" placeholder="Enter exhale" />
                     </div>
 
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="hold_2_field">Hold 2</label>
-                        <input type="text" ref={hold_2_field} defaultValue={updateIndex ? addTimerInfo[updateIndex].hold_2_field : ''} className="form-control" id="hold_2_field" aria-describedby="" placeholder="Enter hold 2" />
+                        <input required type="number" ref={hold_2_field} defaultValue={updateIndex ? addTimerInfo.hold2 : ''} className="form-control" id="hold_2_field" aria-describedby="" placeholder="Enter hold 2" />
                     </div>
 
                     <div className="form-group mb-4">
                         <label className='mb-2' htmlFor="number_of_cycles_field">Number of cycles</label>
-                        <input type="text" ref={number_of_cycles_field} defaultValue={updateIndex ? addTimerInfo[updateIndex].number_of_cycles_field : ''} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
+                        <input required type="number" ref={number_of_cycles_field} defaultValue={updateIndex ? addTimerInfo.cycles : ''} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
                     </div>
 
                     <div className="form-group mb-3 text-center">
