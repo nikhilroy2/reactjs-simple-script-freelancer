@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 // import { addTimerList, updateAddTimer } from '../../Redux/State/AddTimer/AddTimerSlice';
 import axios from 'axios';
 
-import { getTimersApi, addTimerApi, updateTimerApi } from '../../Api/Api';
+import { getTimersApi, addTimerApi, updateTimerApi, getTimersSingleApi } from '../../Api/Api';
 
 function AddTimer(props) {
     // updating var
@@ -27,15 +27,16 @@ function AddTimer(props) {
     // const dispatch = useDispatch();
     let [addTimerInfo, setAddTimerInfo] = useState([]);
 
-    let fetchData = async () => {
-        const data = await getTimersApi();
-        let newData = data.data.filter((v, i) => Number(i) === Number(updateIndex));
-        //console.log('newData', newData);
+    let fetchData = async (id) => {
+        const data = await getTimersSingleApi(id)
+        //let newData = data.data.filter((v, i) => Number(v.ID) === Number(updateIndex));
+        //console.log('newData', (data.data));
         //console.log(newData[0])
-        setAddTimerInfo(newData[0]);
+        //console.log(newData)
+        setAddTimerInfo((data.data));
     }
     if (updateIndex) {
-        fetchData() // 
+        fetchData(updateIndex) // 
     }
     //console.log(addTimerInfo.length)
 
@@ -97,7 +98,8 @@ function AddTimer(props) {
                 // for update data
                 //console.log('updateIndex', updateIndex)
                 // dispatch(updateAddTimer({ updateIndex, newFormValue }));
-                await updateTimerApi(updateIndex, newFormValue) // api post 
+                console.log(updateIndex, newFormValue)
+                await updateTimerApi(Number(updateIndex), newFormValue) // api post 
                 alert('Information updated successfully!')
                 navigate('/manage_timers') // redirect to manage timer page
             } else {

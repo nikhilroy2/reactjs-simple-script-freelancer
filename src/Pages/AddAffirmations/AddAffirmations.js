@@ -1,14 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+//import { useSelector, useDispatch } from 'react-redux';
 
-import { addAffirmationList, updateAddAffirmation } from '../../Redux/State/AddAffirmationSlice/AddAffirmationSlice';
+//import { addAffirmationList, updateAddAffirmation } from '../../Redux/State/AddAffirmationSlice/AddAffirmationSlice';
+
+import { addAffirmationApi, updateAffirmationApi } from '../../Api/Api';
 function AddAffirmations(props) {
     const navigate = useNavigate();
     const location = useLocation();
     const updateIndex = new URLSearchParams(location.search).get("update");
-
-
 
     // field default value
     const name_field = useRef();
@@ -16,8 +16,8 @@ function AddAffirmations(props) {
     const audio_field = useRef();
     const details_field = useRef();
 
-    const dispatch = useDispatch();
-    let stateList = useSelector(state => state.addAffirmation.value);
+    //const dispatch = useDispatch();
+    //let stateList = useSelector(state => state.addAffirmation.value);
 
     const submitFormHandle = (event) => {
         event.preventDefault();
@@ -73,7 +73,7 @@ function AddAffirmations(props) {
             }
         }
 
-        function getAudioSrc(img_src = '') {
+        async function getAudioSrc(img_src = '') {
             let audioFile = audio_field.current.files[0];
             //console.log('audioFile', audioFile)
             let newFormValue = {
@@ -89,7 +89,7 @@ function AddAffirmations(props) {
 
                 reader.onloadend = () => {
                     let audio = new Audio(reader.result);
-                    audio.addEventListener('loadedmetadata', () => {
+                    audio.addEventListener('loadedmetadata', async () => {
 
                         newFormValue.audio_field = reader.result;
 
@@ -98,27 +98,30 @@ function AddAffirmations(props) {
                         newFormValue.audio_duration = formattedDuration;
                         //console.log(reader.result)
                         if (updateIndex) {
-                            dispatch(updateAddAffirmation(newFormValue));
+                            await updateAffirmationApi(updateIndex, newFormValue);
+                            //dispatch(updateAddAffirmation(newFormValue));
                             alert('Information update successfully!');
                             navigate('/manage_affirmations'); // redirect to manage timer page
                         } else {
-                            dispatch(addAffirmationList(newFormValue));
+                            await addAffirmationApi(newFormValue)
+
+                            //dispatch(addAffirmationList(newFormValue));
                             alert('Information added successfully!');
                             navigate('/manage_affirmations'); // redirect to manage timer page
                         }
 
                     })
-
                 };
-
-
                 reader.readAsDataURL(audioFile);
             } else {
                 if (updateIndex) {
-                    dispatch(updateAddAffirmation({ updateIndex, newFormValue }));
+                    //dispatch(updateAddAffirmation({ updateIndex, newFormValue }));
+                    await updateAffirmationApi(updateIndex, newFormValue);
+
                     alert('Information added successfully!');
                 } else {
-                    dispatch(addAffirmationList(newFormValue));
+                    await addAffirmationApi(newFormValue)
+                    //dispatch(addAffirmationList(newFormValue));
                     alert('Information added successfully!');
                 }
                 navigate('/manage_affirmations'); // redirect to manage timer page
@@ -126,6 +129,8 @@ function AddAffirmations(props) {
             }
         }
     }
+
+    const [stateList, setStateList] = useState([]);
     return (
         <div id='addTimer'>
             <div className="container">
@@ -159,7 +164,7 @@ function AddAffirmations(props) {
 
                     <div className="form-group mb-3 text-center">
                         <button className="btn btn-primary px-5">
-                            {updateIndex  && stateList.length > 0 ? 'Update' : 'Submit'}
+                            {updateIndex && stateList.length > 0 ? 'Update' : 'Submit'}
                         </button>
                     </div>
 

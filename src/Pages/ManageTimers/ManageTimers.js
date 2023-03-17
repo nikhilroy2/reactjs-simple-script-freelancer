@@ -73,7 +73,7 @@ function ManageTimers(props) {
                                     {addTimerInfo.map((v, i) => {
                                         return (
                                             <tr key={i}>
-                                                <td className='py-3 border-bottom border-secondary'>{i + 1}.</td>
+                                                <td className='py-3 border-bottom border-secondary'>{v.id}.</td>
                                                 <td className='py-3 border-bottom border-secondary'>{v.name}</td>
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     <img src={`http://temp.thejournalapp.com/freelancer/${v.image}`} alt="img" height="50px" />
@@ -94,8 +94,8 @@ function ManageTimers(props) {
                                                     {v.cycles}
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    <button className='btn btn-sm btn-warning me-2' onClick={() => editHandle(i)}> Edit </button>
-                                                    <button className='btn btn-sm btn-danger' onClick={() => deleteHandle(i)}> Delete </button>
+                                                    <button className='btn btn-sm btn-warning me-2' onClick={() => editHandle(Number(v.id))}> Edit </button>
+                                                    <button className='btn btn-sm btn-danger' onClick={() => deleteHandle(Number(v.id))}> Delete </button>
                                                 </td>
                                             </tr>
                                         )

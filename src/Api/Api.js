@@ -9,6 +9,12 @@ export const getTimersApi = async () => {
   return response.data;
 };
 
+export const getTimersSingleApi = async (id) => {
+  const response = await axios.get(`${BASE_URL}//get_timer.php?id=${id}`);
+  return response.data;
+};
+
+
 export const addTimerApi = async (getData) => {
   //const response = await axios.post(`${BASE_URL}/timers`, getData);
   const response = await axios.post(`${BASE_URL}/add_timer.php`, getData, {
