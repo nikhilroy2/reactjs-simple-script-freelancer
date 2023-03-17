@@ -26,8 +26,10 @@ export const addTimerApi = async (getData) => {
 };
 
 
+
+
 export const updateTimerApi = async (id, updatedTimer) => {
-  const response = await axios.post(`${BASE_URL}/add_timer.php?id=${id}`, updatedTimer, {
+  const response = await axios.post(`${BASE_URL}/update_timer.php?id=${id}`, updatedTimer, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
@@ -78,7 +80,7 @@ export const addMeditationApi = async (getData) => {
 
 
 export const updateMeditationApi = async (id, updatedTimer) => {
-  const response = await axios.post(`${BASE_URL}/add_meditation.php?id=${id}`, updatedTimer, {
+  const response = await axios.post(`${BASE_URL}/add_meditation.php?update=${id}`, updatedTimer, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
@@ -129,7 +131,7 @@ export const addAffirmationApi = async (getData) => {
 
 
 export const updateAffirmationApi = async (id, updatedTimer) => {
-  const response = await axios.post(`${BASE_URL}/add_affirmation.php?id=${id}`, updatedTimer, {
+  const response = await axios.post(`${BASE_URL}/update_affirmation.php?id=${id}`, updatedTimer, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
