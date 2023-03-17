@@ -34,7 +34,7 @@ function ManageTimers(props) {
         let fetchData = async () => {
             const data = await getTimersApi();
             Array.from((data.data)).forEach((v) => {
-                console.log('manageTimer', v)
+                //console.log('manageTimer', v)
                 dispatch(addTimerList(v))
             })
         }
@@ -75,7 +75,7 @@ function ManageTimers(props) {
                                                 <td className='py-3 border-bottom border-secondary'>{i + 1}.</td>
                                                 <td className='py-3 border-bottom border-secondary'>{v.name}</td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    <img src={v.image} alt="img" height="50px" />
+                                                    <img src={`http://temp.thejournalapp.com/freelancer/${v.image}`} alt="img" height="50px" />
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     {v.inhale}
