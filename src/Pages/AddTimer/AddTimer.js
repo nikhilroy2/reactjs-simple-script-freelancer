@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addTimerList, updateAddTimer } from '../../Redux/State/AddTimer/AddTimerSlice';
 import axios from 'axios';
 
+import { getTimersApi, addTimerApi } from '../../Api/Api';
+
 function AddTimer(props) {
     // updating var
     const navigate = useNavigate();
@@ -33,7 +35,7 @@ function AddTimer(props) {
         let reader = new FileReader();
         let file = image_field.current.files[0];
 
-        reader.onloadend = () => { 
+        reader.onloadend = () => {
             let img_data = reader.result;
             let base64_data = btoa(img_data);
             img_local_src = `data:image/jpeg;base64,${base64_data}`;
@@ -48,7 +50,7 @@ function AddTimer(props) {
             dataResult();
         }
 
-        
+
         function generateUUID() {
             const cryptoObj = window.crypto || window.msCrypto; // for IE 11
             const buffer = new Uint16Array(8);
@@ -68,7 +70,7 @@ function AddTimer(props) {
                 buffer[7].toString(16)
             );
         }
-       async function dataResult(image_src = '') {
+        async function dataResult(image_src = '') {
             let newFormValue = {
                 id: generateUUID(),
                 name_field: name_field.current.value,
@@ -88,20 +90,10 @@ function AddTimer(props) {
                 alert('Information updated successfully!')
                 navigate('/manage_timers') // redirect to manage timer page
             } else {
-
-                //for add data
-                try {
-                    const response = await axios.post(`https://temp.thejournalapp.com/freelancer/api/add_timer.php`, newFormValue);
-                    console.log('response', response)
-                    return response.data;
-                } catch (er) {
-                    console.log('error', er)
-                }
-                //dispatch(addTimerList(newFormValue));
+                dispatch(addTimerList(await addTimerApi(newFormValue)));
 
                 alert('Information added successfully!')
-                //navigate('/manage_timers') // redirect to manage timer page
-
+                navigate('/manage_timers') // redirect to manage timer page
             }
 
         }

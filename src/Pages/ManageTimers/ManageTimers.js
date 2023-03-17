@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTimerList, deleteTimerUpdate } from '../../Redux/State/AddTimer/AddTimerSlice';
+
+import { getTimersApi, deleteTimerApi } from '../../Api/Api';
 
 function ManageTimers(props) {
     const navigate = useNavigate();
@@ -21,10 +23,23 @@ function ManageTimers(props) {
         // deleting item
         let isConfirm = window.confirm('Are you sure to delete it?')
 
-        if (isConfirm) {
-            dispatch(deleteTimerUpdate(index));
+        let deleteAction = async () => {
+            if (isConfirm) {
+                dispatch(deleteTimerUpdate(await deleteTimerApi(index)));
+            }
         }
+        deleteAction();
     }
+    useEffect(() => {
+        let fetchData = async () => {
+            const data = await getTimersApi();
+            Array.from((data.data)).forEach((v) => {
+                console.log('manageTimer', v)
+                dispatch(addTimerList(v))
+            })
+        }
+        fetchData();
+    }, [dispatch])
     return (
         <div id='manageTimers'>
             <div className="container">
@@ -58,24 +73,24 @@ function ManageTimers(props) {
                                         return (
                                             <tr key={i}>
                                                 <td className='py-3 border-bottom border-secondary'>{i + 1}.</td>
-                                                <td className='py-3 border-bottom border-secondary'>{v.name_field}</td>
+                                                <td className='py-3 border-bottom border-secondary'>{v.name}</td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    <img src={v.image_field} alt="img" height="50px" />
+                                                    <img src={v.image} alt="img" height="50px" />
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    {v.inhale_field}
+                                                    {v.inhale}
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    {v.hold_1_field}
+                                                    {v.hold1}
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    {v.exhale_field}
+                                                    {v.exhale}
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    {v.hold_2_field}
+                                                    {v.hold2}
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    {v.number_of_cycles_field}
+                                                    {v.cycles}
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     <button className='btn btn-sm btn-warning me-2' onClick={() => editHandle(i)}> Edit </button>
