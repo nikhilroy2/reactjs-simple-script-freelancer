@@ -8,8 +8,11 @@ import { getTimersApi, deleteTimerApi } from '../../Api/Api';
 function ManageTimers(props) {
     const navigate = useNavigate();
 
+    const [addTimerInfo, setAddTimerInfo] = useState([]);
+
     let fetchData = async () => {
         const data = await getTimersApi();
+        console.log('update', data.data)
         setAddTimerInfo(data.data);
     }
 
@@ -34,7 +37,6 @@ function ManageTimers(props) {
         deleteAction();
     }
 
-    const [addTimerInfo, setAddTimerInfo] = useState([]);
 
     useEffect(() => {
         fetchData();

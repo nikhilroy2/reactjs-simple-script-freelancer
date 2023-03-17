@@ -26,8 +26,6 @@ export const addTimerApi = async (getData) => {
 };
 
 
-
-
 export const updateTimerApi = async (id, updatedTimer) => {
   const response = await axios.post(`${BASE_URL}/add_timer.php?id=${id}`, updatedTimer, {
     headers: {
