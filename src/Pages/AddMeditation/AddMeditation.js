@@ -32,8 +32,14 @@ function AddMeditation(props) {
         let file = image_field.current.files[0];
 
         reader.onloadend = () => {
-            img_local_src = reader.result;
-            getAudioSrc(img_local_src)
+            // img_local_src = reader.result;
+            // getAudioSrc(img_local_src)
+
+            let img_data = reader.result;
+            let base64_data = btoa(img_data);
+            img_local_src = `data:image/jpeg;base64,${base64_data}`;
+            getAudioSrc(img_local_src);
+
         }
         if (file) {
             reader.readAsDataURL(file);
@@ -93,8 +99,8 @@ function AddMeditation(props) {
                 reader.onloadend = () => {
                     let audio = new Audio(reader.result);
                     audio.addEventListener('loadedmetadata', async () => {
-
-                        newFormValue.audio_field = reader.result;
+                        
+                        newFormValue.audio_field = reader.result.split(",")[1];
 
                         let formattedDuration = formatTime(audio.duration);
                         //console.log(formattedDuration)
