@@ -100,7 +100,7 @@ function AddMeditation(props) {
                     let audio = new Audio(reader.result);
                     audio.addEventListener('loadedmetadata', async () => {
                         
-                        newFormValue.audio_field = reader.result.split(",")[1];
+                        newFormValue.audio_field = reader.result;
 
                         let formattedDuration = formatTime(audio.duration);
                         //console.log(formattedDuration)
