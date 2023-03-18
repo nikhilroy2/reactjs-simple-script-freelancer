@@ -24,7 +24,10 @@ function AddMeditation(props) {
 
     const submitFormHandle = (event) => {
         event.preventDefault();
-
+        let submit_btn = event.nativeEvent.submitter
+        submit_btn.innerHTML += '<span class="spinner spinner-border spinner-sm spinner-border-sm ms-2"> </span>';
+        submit_btn.setAttribute("disabled", 'disabled')
+        
         // for img field local use.
         let img_local_src = '';
         //console.log(image_field.current.files[0])
@@ -84,16 +87,17 @@ function AddMeditation(props) {
 
         async function getAudioSrc(img_src = '') {
             let audioFile = audio_field.current.files[0];
+            //console.log(audio_field.current.files)
             //console.log('audioFile', audioFile)
             let newFormValue = {
                 id: generateUUID(),
                 name_field: name_field.current.value,
                 image_field: img_src,
-                details_field: details_field.current.value,
-                audio_field: '',
+                details_field: details_field,
+                audio_field: audioFile,
                 audio_duration: '',
             };
-            if (audioFile) {
+            if (false) {
                 let reader = new FileReader();
 
                 reader.onloadend = () => {
@@ -148,7 +152,7 @@ function AddMeditation(props) {
                         <h1 className="display-4 text-black fw-bold"> {updateIndex && stateList.length > 0 ? 'Update Meditation' : 'Add Meditation'}</h1>
                     </div>
                 </div>
-                <form onSubmit={event => submitFormHandle(event)} className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
+                <form onSubmit={event => submitFormHandle(event)} encType="multipart/form-data" className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="name_field">Name</label>
                         <input required defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].name_field : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
