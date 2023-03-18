@@ -23,7 +23,9 @@ function ManageMeditations(props) {
 
         if (isConfirm) {
             //dispatch(deleteMeditationUpdate(index));
-            await deleteMeditationApi(index)
+            await deleteMeditationApi(index);
+            fetchData(); // updating
+
             if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current.currentTime = 0;
@@ -105,30 +107,30 @@ function ManageMeditations(props) {
                                     {stateList.map((v, i) => {
                                         return (
                                             <tr key={i}>
-                                                <td className='py-3 border-bottom border-secondary'>{i + 1}.</td>
-                                                <td className='py-3 border-bottom border-secondary'>{v.name_field}</td>
+                                                <td className='py-3 border-bottom border-secondary'>{v.id}.</td>
+                                                <td className='py-3 border-bottom border-secondary'>{v.name}</td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    <img src={v.image_field} alt="img" height="50px" />
+                                                    <img src={`http://temp.thejournalapp.com/freelancer/${v.image}`} alt="img" height="50px" />
                                                 </td>
-                                                <td className='py-3 border-bottom border-secondary'>{v.details_field}</td>
+                                                <td className='py-3 border-bottom border-secondary'>{v.details}</td>
 
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     {v.audio_field !== '' && (
-                                                        <button className='btn btn-success btn-sm' onClick={(event) => playAudioHandle(v.audio_field, event.target)}>
+                                                        <button className='btn btn-success btn-sm' onClick={(event) => playAudioHandle(v.audio, event.target)}>
                                                             Play
                                                         </button>
                                                     )}
                                                 </td>
                                                 <td className='py-3 border-bottom border-secondary'>
 
-                                                    {v.audio_field !== '' && (
+                                                    {v.audio !== '' && (
                                                         <span>Duration: {v.audio_duration}</span>
                                                     )}
                                                 </td>
 
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    <button className='btn btn-sm btn-warning me-2' onClick={() => editHandle(i)}> Edit </button>
-                                                    <button className='btn btn-sm btn-danger' onClick={() => deleteHandle(i)}> Delete </button>
+                                                    <button className='btn btn-sm btn-warning me-2' onClick={() => editHandle(v.id)}> Edit </button>
+                                                    <button className='btn btn-sm btn-danger' onClick={() => deleteHandle(v.id)}> Delete </button>
                                                 </td>
                                             </tr>
                                         )
