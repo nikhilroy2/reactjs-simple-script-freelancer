@@ -10,7 +10,7 @@ export const getTimersApi = async () => {
 };
 
 export const getTimersSingleApi = async (id) => {
-  const response = await axios.get(`${BASE_URL}//get_timer.php?id=${id}`);
+  const response = await axios.get(`${BASE_URL}/get_timer.php?id=${id}`);
   return response.data;
 };
 
@@ -66,6 +66,11 @@ export const getMeditationApi = async () => {
   return response.data;
 };
 
+export const getMeditationSingleApi = async (id) => {
+  const response = await axios.get(`${BASE_URL}/get_meditation.php?id=${id}`);
+  return response.data;
+};
+
 export const addMeditationApi = async (getData) => {
   //const response = await axios.post(`${BASE_URL}/timers`, getData);
   const response = await axios.post(`${BASE_URL}/add_meditation.php`, getData, {
@@ -116,6 +121,13 @@ export const getAffirmationApi = async () => {
   const response = await axios.get(`${BASE_URL}/get_affirmations.php`);
   return response.data;
 };
+
+export const getAffirmationSingleApi = async (id) => {
+  const response = await axios.get(`${BASE_URL}/get_affirmation.php?id=${id}`);
+  return response.data;
+};
+
+
 
 export const addAffirmationApi = async (getData) => {
   //const response = await axios.post(`${BASE_URL}/timers`, getData);

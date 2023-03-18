@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 //import { addAffirmationList, updateAddAffirmation } from '../../Redux/State/AddAffirmationSlice/AddAffirmationSlice';
 
-import { addAffirmationApi, updateAffirmationApi } from '../../Api/Api';
+import { addAffirmationApi, updateAffirmationApi, getAffirmationSingleApi } from '../../Api/Api';
 function AddAffirmations(props) {
     const navigate = useNavigate();
     const location = useLocation();
@@ -18,9 +18,24 @@ function AddAffirmations(props) {
 
     //const dispatch = useDispatch();
     //let stateList = useSelector(state => state.addAffirmation.value);
+    const [stateList, setStateList] = useState([]);
+
+    let fetchData = async (id) => {
+        const data = await getAffirmationSingleApi(id)
+        //let newData = data.data.filter((v, i) => Number(v.ID) === Number(updateIndex));
+        //console.log('newData', (data.data));
+        //console.log(newData[0])
+        //console.log(newData)
+        console.log(data.data)
+        setStateList((data.data));
+    }
+
 
     const submitFormHandle = (event) => {
         event.preventDefault();
+        let submit_btn = event.nativeEvent.submitter
+        submit_btn.innerHTML += '<span class="spinner spinner-border spinner-sm spinner-border-sm ms-2"> </span>';
+        submit_btn.setAttribute("disabled", 'disabled')
 
         // for img field local use.
         let img_local_src = '';
@@ -81,10 +96,11 @@ function AddAffirmations(props) {
                 name_field: name_field.current.value,
                 image_field: img_src,
                 details_field: details_field.current.value,
-                audio_field: '',
+                audio_field: audioFile,
                 audio_duration: '',
             };
-            if (audioFile) {
+            // audioFile
+            if (false) {
                 let reader = new FileReader();
 
                 reader.onloadend = () => {
@@ -130,41 +146,45 @@ function AddAffirmations(props) {
         }
     }
 
-    const [stateList, setStateList] = useState([]);
+    useEffect(() => {
+        if (updateIndex && stateList.length === 0) {
+            fetchData(updateIndex) // 
+        }
+    })
     return (
         <div id='addTimer'>
             <div className="container">
                 <div className="jumbotron jumbotron-fluid  my-3 text-center">
                     <div className="p-4">
-                        <h1 className="display-4 text-black fw-bold"> {updateIndex && stateList.length > 0 ? 'Update Affirmations' : 'Add Affirmations'}</h1>
+                        <h1 className="display-4 text-black fw-bold"> {updateIndex  ? 'Update Affirmations' : 'Add Affirmations'}</h1>
                     </div>
                 </div>
                 <form onSubmit={event => submitFormHandle(event)} className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="name_field">Name</label>
-                        <input defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].name_field : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
+                        <input required defaultValue={updateIndex  ? stateList.name : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
                     </div>
 
                     <div className="form-group mb-3">
                         <label htmlFor="image_field" className='d-block mb-2'>Image upload</label>
-                        <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
+                        <input required type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
                     </div>
 
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="details_field">Details</label>
-                        <textarea ref={details_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].details_field : ''} name="" id="details_field" rows="3" placeholder='Enter details' className="form-control w-100"></textarea>
+                        <textarea required ref={details_field} defaultValue={updateIndex  ? stateList.details : ''} name="" id="details_field" rows="3" placeholder='Enter details' className="form-control w-100"></textarea>
                     </div>
 
 
 
                     <div className="form-group mb-4">
                         <label className='mb-2' htmlFor="audio_field">Audio upload</label>
-                        <input type="file" accept='.mp3,.amr,.wav' ref={audio_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].number_of_cycles_field : ''} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
+                        <input required type="file" accept='.mp3,.amr,.wav' ref={audio_field}  className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
                     </div>
 
                     <div className="form-group mb-3 text-center">
                         <button className="btn btn-primary px-5">
-                            {updateIndex && stateList.length > 0 ? 'Update' : 'Submit'}
+                            {updateIndex  ? 'Update' : 'Submit'}
                         </button>
                     </div>
 

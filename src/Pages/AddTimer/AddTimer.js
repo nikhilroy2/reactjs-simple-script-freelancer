@@ -41,6 +41,10 @@ function AddTimer(props) {
     const submitFormHandle = (event) => {
         event.preventDefault();
 
+        let submit_btn = event.nativeEvent.submitter
+        submit_btn.innerHTML += '<span class="spinner spinner-border spinner-sm spinner-border-sm ms-2"> </span>';
+        submit_btn.setAttribute("disabled", 'disabled')
+
         let img_local_src = '';
         let reader = new FileReader();
         let file = image_field.current.files[0];

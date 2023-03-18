@@ -1,14 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { addAffirmationList, updateAddAffirmation, deleteAffirmationUpdate } from '../../Redux/State/AddAffirmationSlice/AddAffirmationSlice';
+//import { useSelector, useDispatch } from 'react-redux';
+//import { addAffirmationList, updateAddAffirmation, deleteAffirmationUpdate } from '../../Redux/State/AddAffirmationSlice/AddAffirmationSlice';
+import { getAffirmationApi, deleteAffirmationApi } from '../../Api/Api';
 function ManageAffirmations(props) {
     const navigate = useNavigate();
     let audioRef = useRef()
 
-    const dispatch = useDispatch();
-    let stateList = useSelector(state => state.addAffirmation.value);
+    //const dispatch = useDispatch();
+    //let stateList = useSelector(state => state.addAffirmation.value);
+    let [stateList, setStateList] = useState([]);
     //console.log(addTimerInfo)
     const editHandle = (index) => {
         let isConfirm = window.confirm('Are you sure to update it?')
@@ -17,13 +19,17 @@ function ManageAffirmations(props) {
         }
     }
 
-    const deleteHandle = (index) => {
+    const deleteHandle = async (index) => {
 
         // deleting item
         let isConfirm = window.confirm('Are you sure to delete it?')
 
         if (isConfirm) {
-            dispatch(deleteAffirmationUpdate(index));
+            //dispatch(deleteAffirmationUpdate(index));
+            await deleteAffirmationApi(index);
+            fetchData(); // updating
+
+
             if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current.currentTime = 0;
@@ -54,7 +60,14 @@ function ManageAffirmations(props) {
         }
     }
 
+    let fetchData = async () => {
+        const data = await getAffirmationApi();
+        setStateList(data.data);
+    }
+
+
     useEffect(() => {
+        fetchData();
         return () => {
             // stop audio playback when unmounting component
             if (audioRef.current) {
@@ -94,16 +107,16 @@ function ManageAffirmations(props) {
                                     {stateList.map((v, i) => {
                                         return (
                                             <tr key={i}>
-                                                <td className='py-3 border-bottom border-secondary'>{i + 1}.</td>
-                                                <td className='py-3 border-bottom border-secondary'>{v.name_field}</td>
+                                                <td className='py-3 border-bottom border-secondary'>{i+1}.</td>
+                                                <td className='py-3 border-bottom border-secondary'>{v.name}</td>
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    <img src={v.image_field} alt="img" height="50px" />
+                                                    <img src={`http://temp.thejournalapp.com/freelancer/${v.image}`} alt="img" height="50px" />
                                                 </td>
-                                                <td className='py-3 border-bottom border-secondary'>{v.details_field}</td>
+                                                <td className='py-3 border-bottom border-secondary'>{v.details}</td>
 
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     {v.audio_field !== '' && (
-                                                        <button className='btn btn-success btn-sm' onClick={(event) => playAudioHandle(v.audio_field, event.target)}>
+                                                        <button className='btn btn-success btn-sm' onClick={(event) => playAudioHandle(v.audio, event.target)}>
                                                             Play
                                                         </button>
                                                     )}
@@ -115,8 +128,8 @@ function ManageAffirmations(props) {
                                                 </td>
 
                                                 <td className='py-3 border-bottom border-secondary'>
-                                                    <button className='btn btn-sm btn-warning me-2' onClick={() => editHandle(i)}> Edit </button>
-                                                    <button className='btn btn-sm btn-danger' onClick={() => deleteHandle(i)}> Delete </button>
+                                                    <button className='btn btn-sm btn-warning me-2' onClick={() => editHandle(v.id)}> Edit </button>
+                                                    <button className='btn btn-sm btn-danger' onClick={() => deleteHandle(v.id)}> Delete </button>
                                                 </td>
                                             </tr>
                                         )

@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 //import { addMeditationList, updateAddMeditation } from '../../Redux/State/AddMeditationSlice/AddMeditationSlice';
-import { addMeditationApi, updateMeditationApi } from '../../Api/Api';
+import { addMeditationApi, updateMeditationApi, getMeditationSingleApi } from '../../Api/Api';
 function AddMeditation(props) {
     const navigate = useNavigate();
     const location = useLocation();
@@ -20,6 +20,16 @@ function AddMeditation(props) {
     // const dispatch = useDispatch();
     // let stateList = useSelector(state => state.addMeditation.value);
     const [stateList, setStateList] = useState([]);
+
+    let fetchData = async (id) => {
+        const data = await getMeditationSingleApi(id)
+        //let newData = data.data.filter((v, i) => Number(v.ID) === Number(updateIndex));
+        //console.log('newData', (data.data));
+        //console.log(newData[0])
+        //console.log(newData)
+        console.log(data.data)
+        setStateList((data.data));
+    }
 
 
     const submitFormHandle = (event) => {
@@ -86,6 +96,7 @@ function AddMeditation(props) {
         }
 
         async function getAudioSrc(img_src = '') {
+
             let audioFile = audio_field.current.files[0];
             //console.log(audio_field.current.files)
             //console.log('audioFile', audioFile)
@@ -97,6 +108,7 @@ function AddMeditation(props) {
                 audio_field: audioFile,
                 audio_duration: '',
             };
+            // audioFile
             if (false) {
                 let reader = new FileReader();
 
@@ -144,18 +156,24 @@ function AddMeditation(props) {
             }
         }
     }
+
+    useEffect(() => {
+        if (updateIndex && stateList.length === 0) {
+            fetchData(updateIndex) // 
+        }
+    })
     return (
         <div id='addMeditation'>
             <div className="container">
                 <div className="jumbotron jumbotron-fluid  my-3 text-center">
                     <div className="p-4">
-                        <h1 className="display-4 text-black fw-bold"> {updateIndex && stateList.length > 0 ? 'Update Meditation' : 'Add Meditation'}</h1>
+                        <h1 className="display-4 text-black fw-bold"> {updateIndex  ? 'Update Meditation' : 'Add Meditation'}</h1>
                     </div>
                 </div>
                 <form onSubmit={event => submitFormHandle(event)} encType="multipart/form-data" className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
                     <div className="form-group mb-3">
-                        <label className='mb-2' htmlFor="name_field">Name</label>
-                        <input required defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].name_field : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
+                        <label className='mb-2' htmlFor="name_field">Name {stateList.name}</label>
+                        <input required defaultValue={updateIndex  ? stateList.name : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
                     </div>
 
                     <div className="form-group mb-3">
@@ -164,19 +182,18 @@ function AddMeditation(props) {
                     </div>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="details_field">Details</label>
-                        <textarea required ref={details_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].details_field : ''} name="" id="details_field" rows="3" placeholder='Enter details' className="form-control w-100"></textarea>
+                        <textarea required ref={details_field} defaultValue={updateIndex  ? stateList.details : ''} name="" id="details_field" rows="3" placeholder='Enter details' className="form-control w-100"></textarea>
                     </div>
                     <div className="form-group mb-4">
                         <label className='mb-2' htmlFor="audio_field">Audio upload</label>
-                        <input required type="file" accept='.mp3,.amr,.wav' ref={audio_field} defaultValue={updateIndex && stateList.length > 0 ? stateList[updateIndex].number_of_cycles_field : ''} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
+                        <input required type="file" accept='.mp3,.amr,.wav' ref={audio_field}  className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
                     </div>
 
                     <div className="form-group mb-3 text-center">
                         <button className="btn btn-primary px-5">
-                            {updateIndex && stateList.length > 0 ? 'Update' : 'Submit'}
+                            {updateIndex  ? 'Update' : 'Submit'}
                         </button>
                     </div>
-
                     <div className="form-group mb-3 text-center">
                         <Link to="/manage_meditation" className="btn btn-secondary px-5">Manage Meditation</Link>
                     </div>
