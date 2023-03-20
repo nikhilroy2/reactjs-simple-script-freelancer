@@ -104,7 +104,7 @@ function AddMeditation(props) {
                 id: generateUUID(),
                 name_field: name_field.current.value,
                 image_field: img_src,
-                details_field: details_field,
+                details_field: details_field.current.value,
                 audio_field: audioFile,
                 audio_duration: '',
             };
