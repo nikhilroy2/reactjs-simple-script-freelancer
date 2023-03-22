@@ -75,7 +75,7 @@ export const addMeditationApi = async (getData) => {
   //const response = await axios.post(`${BASE_URL}/timers`, getData);
   const response = await axios.post(`${BASE_URL}/add_meditation.php`, getData, {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      'Content-Type': 'multipart/form-data'
     }
   });
   //console.log('responseData', response)
@@ -133,7 +133,7 @@ export const addAffirmationApi = async (getData) => {
   //const response = await axios.post(`${BASE_URL}/timers`, getData);
   const response = await axios.post(`${BASE_URL}/add_affirmation.php`, getData, {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      'Content-Type': 'multipart/form-data'
     }
   });
   //console.log('responseData', response)

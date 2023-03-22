@@ -40,11 +40,13 @@ function ManageAffirmations(props) {
 
     const playAudioHandle = (src, _self) => {
         let audio = audioRef.current;
-
-        if (audio && !audio.paused && audio.src === src) {
+        if (audio && !audio.paused ) {
+            console.log('pause')
             audio.pause();
             _self.innerHTML = 'Play';
         } else {
+            console.log('play')
+
             audio = new Audio();
             audio.src = src;
             audio.play();
@@ -60,10 +62,48 @@ function ManageAffirmations(props) {
         }
     }
 
+
+    function formatTime(duration) {
+        let hours = Math.floor(duration / 3600);
+        let minutes = Math.floor((duration % 3600) / 60);
+        let seconds = Math.floor(duration % 60);
+
+        if (hours > 0) {
+            return hours + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+        } else {
+            return ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+        }
+    }
+
     let fetchData = async () => {
         const data = await getAffirmationApi();
-        setStateList(data.data);
+        let newData = data.data.map(async (v) => {
+            if (!v.audio) {
+                return { ...v, audio_duration: 'N/A' };
+            }
+
+            let audio_duration = new Audio();
+            audio_duration.src = `https://temp.thejournalapp.com/freelancer/${v.audio}`;
+
+            return new Promise((resolve, reject) => {
+                audio_duration.addEventListener('loadedmetadata', function () {
+                    let get_duration = formatTime(audio_duration.duration);
+                    resolve({ ...v, audio_duration: get_duration });
+                });
+
+                audio_duration.addEventListener('error', function () {
+                    //console.error(`Failed to load audio: ${v.audio}`);
+                    resolve({ ...v, audio_duration: 'N/A' });
+                });
+            });
+        });
+
+        Promise.all(newData).then((updatedData) => {
+            //console.log('newData', updatedData);
+            setStateList(updatedData);
+        });
     }
+
 
 
     useEffect(() => {
@@ -107,7 +147,7 @@ function ManageAffirmations(props) {
                                     {stateList.map((v, i) => {
                                         return (
                                             <tr key={i}>
-                                                <td className='py-3 border-bottom border-secondary'>{i+1}.</td>
+                                                <td className='py-3 border-bottom border-secondary'>{i + 1}.</td>
                                                 <td className='py-3 border-bottom border-secondary'>{v.name}</td>
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     <img src={`http://temp.thejournalapp.com/freelancer/${v.image}`} alt="img" height="50px" />
@@ -116,7 +156,7 @@ function ManageAffirmations(props) {
 
                                                 <td className='py-3 border-bottom border-secondary'>
                                                     {v.audio_field !== '' && (
-                                                        <button className='btn btn-success btn-sm' onClick={(event) => playAudioHandle(v.audio, event.target)}>
+                                                        <button className='btn btn-success btn-sm' onClick={(event) => playAudioHandle(`https://temp.thejournalapp.com/freelancer/${v.audio}`, event.target)}>
                                                             Play
                                                         </button>
                                                     )}

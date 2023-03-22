@@ -37,7 +37,7 @@ function AddMeditation(props) {
         let submit_btn = event.nativeEvent.submitter
         submit_btn.innerHTML += '<span class="spinner spinner-border spinner-sm spinner-border-sm ms-2"> </span>';
         submit_btn.setAttribute("disabled", 'disabled')
-        
+
         // for img field local use.
         let img_local_src = '';
         //console.log(image_field.current.files[0])
@@ -45,13 +45,8 @@ function AddMeditation(props) {
         let file = image_field.current.files[0];
 
         reader.onloadend = () => {
-            // img_local_src = reader.result;
-            // getAudioSrc(img_local_src)
-
-            let img_data = reader.result;
-            let base64_data = btoa(img_data);
-            img_local_src = `data:image/jpeg;base64,${base64_data}`;
-            getAudioSrc(img_local_src);
+            img_local_src = reader.result;
+            getAudioSrc(img_local_src)
 
         }
         if (file) {
@@ -115,7 +110,7 @@ function AddMeditation(props) {
                 reader.onloadend = () => {
                     let audio = new Audio(reader.result);
                     audio.addEventListener('loadedmetadata', async () => {
-                        
+
                         newFormValue.audio_field = reader.result;
 
                         let formattedDuration = formatTime(audio.duration);
@@ -167,13 +162,13 @@ function AddMeditation(props) {
             <div className="container">
                 <div className="jumbotron jumbotron-fluid  my-3 text-center">
                     <div className="p-4">
-                        <h1 className="display-4 text-black fw-bold"> {updateIndex  ? 'Update Meditation' : 'Add Meditation'}</h1>
+                        <h1 className="display-4 text-black fw-bold"> {updateIndex ? 'Update Meditation' : 'Add Meditation'}</h1>
                     </div>
                 </div>
                 <form onSubmit={event => submitFormHandle(event)} encType="multipart/form-data" className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="name_field">Name {stateList.name}</label>
-                        <input required defaultValue={updateIndex  ? stateList.name : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
+                        <input required defaultValue={updateIndex ? stateList.name : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
                     </div>
 
                     <div className="form-group mb-3">
@@ -182,16 +177,16 @@ function AddMeditation(props) {
                     </div>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="details_field">Details</label>
-                        <textarea required ref={details_field} defaultValue={updateIndex  ? stateList.details : ''} name="" id="details_field" rows="3" placeholder='Enter details' className="form-control w-100"></textarea>
+                        <textarea required ref={details_field} defaultValue={updateIndex ? stateList.details : ''} name="" id="details_field" rows="3" placeholder='Enter details' className="form-control w-100"></textarea>
                     </div>
                     <div className="form-group mb-4">
                         <label className='mb-2' htmlFor="audio_field">Audio upload</label>
-                        <input required type="file" accept='.mp3,.amr,.wav' ref={audio_field}  className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
+                        <input required type="file" accept='.mp3,.amr,.wav' ref={audio_field} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
                     </div>
 
                     <div className="form-group mb-3 text-center">
                         <button className="btn btn-primary px-5">
-                            {updateIndex  ? 'Update' : 'Submit'}
+                            {updateIndex ? 'Update' : 'Submit'}
                         </button>
                     </div>
                     <div className="form-group mb-3 text-center">
