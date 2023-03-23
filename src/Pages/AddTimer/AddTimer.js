@@ -35,7 +35,7 @@ function AddTimer(props) {
         //console.log(newData)
         setAddTimerInfo((data.data));
     }
-   
+
     //console.log(addTimerInfo.length)
 
     const submitFormHandle = (event) => {
@@ -45,24 +45,24 @@ function AddTimer(props) {
         submit_btn.innerHTML += '<span class="spinner spinner-border spinner-sm spinner-border-sm ms-2"> </span>';
         submit_btn.setAttribute("disabled", 'disabled')
 
-        let img_local_src = '';
-        let reader = new FileReader();
+        // let img_local_src = '';
+        // let reader = new FileReader();
         let file = image_field.current.files[0];
 
-        reader.onloadend = () => {
-            let img_data = reader.result;
-            let base64_data = btoa(img_data);
-            img_local_src = `data:image/jpeg;base64,${base64_data}`;
-            dataResult(img_local_src);
-        }
+        // reader.onloadend = () => {
+        //     let img_data = reader.result;
+        //     let base64_data = btoa(img_data);
+        //     img_local_src = `data:image/jpeg;base64,${base64_data}`;
+        //     dataResult(img_local_src);
+        // }
 
-        if (file) {
-            reader.readAsBinaryString(file);
-        }
+        // if (file) {
+        //     reader.readAsBinaryString(file);
+        // }
 
-        if (image_field.current.value === '') {
-            dataResult();
-        }
+        // if (image_field.current.value === '') {
+        //     dataResult();
+        // }
 
 
         function generateUUID() {
@@ -84,17 +84,19 @@ function AddTimer(props) {
                 buffer[7].toString(16)
             );
         }
+        dataResult();
+
         async function dataResult(image_src = '') {
-            let newFormValue = {
-                id: generateUUID(),
-                name_field: name_field.current.value,
-                image_field: file,
-                inhale_field: inhale_field.current.value,
-                hold_1_field: hold_1_field.current.value,
-                exhale_field: exhale_field.current.value,
-                hold_2_field: hold_2_field.current.value,
-                number_of_cycles_field: number_of_cycles_field.current.value,
-            }
+            let newFormValue = new FormData();
+            newFormValue.append('id', generateUUID());
+            newFormValue.append('name_field', name_field.current.value);
+
+            file && newFormValue.append('image_field', file)
+            newFormValue.append('inhale_field', inhale_field.current.value);
+            newFormValue.append('hold_1_field', hold_1_field.current.value);
+            newFormValue.append('exhale_field', exhale_field.current.value);
+            newFormValue.append('hold_2_field', hold_2_field.current.value);
+            newFormValue.append('number_of_cycles_field', number_of_cycles_field.current.value);
 
             console.log(newFormValue)
 
@@ -140,7 +142,12 @@ function AddTimer(props) {
 
                     <div className="form-group mb-3">
                         <label htmlFor="image_field" className='d-block mb-2'>Image upload</label>
-                        <input required type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
+                        {
+                            updateIndex ? <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
+                                :
+                                <input required type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
+                        }
+
                     </div>
 
                     <div className="form-group mb-3">
@@ -169,7 +176,7 @@ function AddTimer(props) {
 
                     <div className="form-group mb-3 text-center">
                         <button className="btn btn-primary px-5">
-                            {updateIndex  ? 'Update' : 'Submit'}
+                            {updateIndex ? 'Update' : 'Submit'}
                         </button>
                     </div>
 

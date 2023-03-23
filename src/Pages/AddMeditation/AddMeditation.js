@@ -39,23 +39,26 @@ function AddMeditation(props) {
         submit_btn.setAttribute("disabled", 'disabled')
 
         // for img field local use.
-        let img_local_src = '';
+        // let img_local_src = '';
         //console.log(image_field.current.files[0])
-        let reader = new FileReader();
+        // let reader = new FileReader();
         let file = image_field.current.files[0];
 
-        reader.onloadend = () => {
-            img_local_src = reader.result;
-            getAudioSrc(img_local_src)
+        // reader.onloadend = () => {
+        //     img_local_src = reader.result;
+        //     getAudioSrc(img_local_src)
 
-        }
-        if (file) {
-            reader.readAsDataURL(file);
-        }
+        // }
+        // if (file) {
+        //     reader.readAsDataURL(file);
+        // }
 
-        if (image_field.current.value === '') {
-            getAudioSrc()
-        }
+        // if (image_field.current.value === '') {
+        //     getAudioSrc()
+        // }
+
+        getAudioSrc()
+
 
 
         function generateUUID() {
@@ -95,14 +98,14 @@ function AddMeditation(props) {
             let audioFile = audio_field.current.files[0];
             //console.log(audio_field.current.files)
             //console.log('audioFile', audioFile)
-            let newFormValue = {
-                id: generateUUID(),
-                name_field: name_field.current.value,
-                image_field: file,
-                details_field: details_field.current.value,
-                audio_field: audioFile,
-                audio_duration: '',
-            };
+            let newFormValue = new FormData();
+            newFormValue.append('id', generateUUID());
+            newFormValue.append('name_field', name_field.current.value);
+            newFormValue.append('details_field', details_field.current.value);
+            audioFile && newFormValue.append('audio_field', audioFile);
+            newFormValue.append('audio_duration', '');
+            file && newFormValue.append('image_field', file);
+
             // audioFile
             if (false) {
                 let reader = new FileReader();
@@ -167,13 +170,15 @@ function AddMeditation(props) {
                 </div>
                 <form onSubmit={event => submitFormHandle(event)} encType="multipart/form-data" className='text-black mx-auto my-3 shadow rounded border border-secondary bg-light px-3 px-md-5 py-3' style={{ maxWidth: '600px' }}>
                     <div className="form-group mb-3">
-                        <label className='mb-2' htmlFor="name_field">Name {stateList.name}</label>
+                        <label className='mb-2' htmlFor="name_field">Name</label>
                         <input required defaultValue={updateIndex ? stateList.name : ''} type="text" ref={name_field} className="form-control" id="name_field" aria-describedby="" placeholder="Enter name" />
                     </div>
 
                     <div className="form-group mb-3">
                         <label htmlFor="image_field" className='d-block mb-2'>Image upload</label>
-                        <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
+                        {updateIndex ? <input type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
+                            : <input required type="file" accept='.jpg,.png,.gif,.jpge,.svg' ref={image_field} className="form-control-file form-control" id="image_field" />
+                        }
                     </div>
                     <div className="form-group mb-3">
                         <label className='mb-2' htmlFor="details_field">Details</label>
@@ -181,7 +186,9 @@ function AddMeditation(props) {
                     </div>
                     <div className="form-group mb-4">
                         <label className='mb-2' htmlFor="audio_field">Audio upload</label>
-                        <input required type="file" accept='.mp3,.amr,.wav' ref={audio_field} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
+                        {updateIndex ? <input type="file" accept='.mp3,.amr,.wav' ref={audio_field} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />
+                            : <input required type="file" accept='.mp3,.amr,.wav' ref={audio_field} className="form-control" id="number_of_cycles_field" aria-describedby="" placeholder="Enter number of cycles" />}
+
                     </div>
 
                     <div className="form-group mb-3 text-center">
