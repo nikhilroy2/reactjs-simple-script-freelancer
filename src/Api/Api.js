@@ -150,7 +150,7 @@ export const addAffirmationApi = async (getData) => {
 
 
 export const updateAffirmationApi = async (id, updatedTimer) => {
-  const response = await axios.post(`${BASE_URL}/add_affirmation.php?id=${id}`, updatedTimer, {
+  const response = await axios.post(`${BASE_URL}/add_affirmation.php?update=${id}`, updatedTimer, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     }
