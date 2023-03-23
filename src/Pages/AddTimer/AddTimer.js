@@ -88,13 +88,15 @@ function AddTimer(props) {
             let newFormValue = {
                 id: generateUUID(),
                 name_field: name_field.current.value,
-                image_field: image_src,
+                image_field: file,
                 inhale_field: inhale_field.current.value,
                 hold_1_field: hold_1_field.current.value,
                 exhale_field: exhale_field.current.value,
                 hold_2_field: hold_2_field.current.value,
                 number_of_cycles_field: number_of_cycles_field.current.value,
             }
+
+            console.log(newFormValue)
 
             if (updateIndex) {
                 // for update data

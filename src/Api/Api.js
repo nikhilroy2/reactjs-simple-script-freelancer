@@ -16,10 +16,11 @@ export const getTimersSingleApi = async (id) => {
 
 
 export const addTimerApi = async (getData) => {
+  console.log('getData', getData)
   //const response = await axios.post(`${BASE_URL}/timers`, getData);
   const response = await axios.post(`${BASE_URL}/add_timer.php`, getData, {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      'Content-Type': 'multipart/form-data'
     }
   });
   //console.log('responseData', response)
