@@ -94,7 +94,7 @@ function AddAffirmations(props) {
             let newFormValue = {
                 id: generateUUID(),
                 name_field: name_field.current.value,
-                image_field: img_src,
+                image_field: file,
                 details_field: details_field.current.value,
                 audio_field: audioFile,
                 audio_duration: '',
